@@ -35,7 +35,7 @@ export default function ContactClient() {
             Get in Touch
           </h1>
           <p className="font-body-lg text-body-lg text-text-medium-emphasis">
-            Boutique Support for Discerning Clients. Our dedicated property experts are ready to assist with your real estate inquiries.
+            Our dedicated property experts are ready to assist with your real estate inquiries.
           </p>
         </section>
 

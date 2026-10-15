@@ -300,7 +300,7 @@ export default function PropertiesClient() {
                     <img
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       alt={prop.title}
-                      src={prop.images[0] || '/images/projects/winsome-icon/day-elevation-glass-tower.jpg'}
+                      src={prop.images[0] || '/images/projects/winsome-icon/tower-front-elevation.jpg'}
                     />
                     {prop.verified && (
                       <div className="absolute top-3 left-3 bg-secondary text-on-secondary px-2 py-1 rounded text-xs font-bold flex items-center gap-1 shadow-sm">
@@ -337,7 +337,18 @@ export default function PropertiesClient() {
                         </button>
                       </div>
 
-                      <p className="font-label-bold text-on-surface-variant mb-1">
+                      {/* Project Name Badge */}
+                      <div className="mb-2">
+                        <span className="text-[11px] font-bold text-neutral-800 bg-neutral-100 border border-neutral-300 px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 mb-1">
+                          <span className="material-symbols-outlined text-[13px] text-amber-600">apartment</span>
+                          Project: {prop.projectName || prop.title.split(' - ')[0]}
+                        </span>
+                        <h4 className="text-sm font-bold text-neutral-900 line-clamp-1 group-hover:text-primary transition-colors">
+                          {prop.title}
+                        </h4>
+                      </div>
+
+                      <p className="font-label-bold text-on-surface-variant mb-1 text-xs">
                         {prop.bedrooms} BHK {prop.propertyType} • {prop.sqft.toLocaleString('en-IN')} sq.ft.
                       </p>
 
@@ -437,7 +448,7 @@ export default function PropertiesClient() {
           >
             <div className="relative h-32 w-full rounded-xl overflow-hidden mb-2 bg-surface-container">
               <img
-                src={activeProperty.images[0] || '/images/projects/winsome-icon/day-elevation-glass-tower.jpg'}
+                src={activeProperty.images[0] || '/images/projects/winsome-icon/tower-front-elevation.jpg'}
                 alt={activeProperty.title}
                 className="w-full h-full object-cover"
               />

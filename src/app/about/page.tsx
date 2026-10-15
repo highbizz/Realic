@@ -15,33 +15,6 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const leadership = [
-    {
-      name: 'Eleanor Vance',
-      role: 'Managing Partner',
-      bio: "Visionary leader driving Realic's strategic growth and client acquisition.",
-      image: '/images/team-eleanor.jpg',
-    },
-    {
-      name: 'Julian Mercer',
-      role: 'Director of Strategy',
-      bio: 'Expert in macroeconomic analysis and high-value portfolio diversification.',
-      image: '/images/team-julian.jpg',
-    },
-    {
-      name: 'Sarah Lin',
-      role: 'Principal Consultant',
-      bio: 'Specializes in off-market acquisitions and bespoke residential transitions.',
-      image: '/images/team-sarah.jpg',
-    },
-    {
-      name: 'Marcus Thorne',
-      role: 'Head of Commercial',
-      bio: 'Leads institutional-grade commercial transactions and leasing strategy.',
-      image: '/images/team-marcus.jpg',
-    },
-  ];
-
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen flex flex-col">
       <main className="flex-grow">
@@ -60,7 +33,7 @@ export default function AboutPage() {
               <img
                 alt="Venus Capital Heights 16-Acre Integrated Township Patna"
                 className="w-full h-[500px] object-cover"
-                src="/images/projects/venus-capital-heights/master-township-aerial-view.jpg"
+                src="/images/projects/venus-capital-heights/township-scale-estate-overview.jpg"
               />
             </div>
           </div>
@@ -84,7 +57,7 @@ export default function AboutPage() {
                 </span>
                 <h3 className="font-headline-md text-headline-md text-primary mb-2">Boutique Expertise</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                  We intentionally limit our active client roster to guarantee dedicated attention and exhaustive market analysis for every transaction.
+                  We intentionally cap our active roster at 3 concurrent mandates, ensuring exhaustive market analysis and dedicated senior attention for every project we represent.
                 </p>
               </div>
 
@@ -95,7 +68,7 @@ export default function AboutPage() {
                 </span>
                 <h3 className="font-headline-md text-headline-md text-primary mb-2">Data-Driven Insights</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                  Our proprietary valuation models leverage macroeconomic indicators and micro-market trends to secure optimal pricing strategies.
+                  Our pricing strategies are built on verified micro-market absorption data, corridor-level buyer surveys, and real-time competitive benchmarking, not assumptions.
                 </p>
               </div>
 
@@ -106,7 +79,7 @@ export default function AboutPage() {
                 </span>
                 <h3 className="font-headline-md text-headline-md text-primary mb-2">White-Glove Service</h3>
                 <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-                  From initial consultation to final signature, we manage every detail discretely, ensuring a seamless and elevated experience.
+                  From initial consultation to final signature, we manage every detail discreetly, particularly for NRI and HNI clients requiring seamless remote coordination and absolute confidentiality.
                 </p>
               </div>
             </div>
@@ -136,28 +109,54 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Leadership Section */}
+        {/* Frequently Asked Questions Section */}
         <section className="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-section-gap-lg">
-          <h2 className="font-headline-lg text-headline-lg text-primary text-center mb-section-gap-sm">
-            Leadership &amp; Senior Counsel
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
-            {leadership.map((member) => (
-              <div key={member.name} className="group">
-                <div className="rounded-lg overflow-hidden mb-4 custom-shadow aspect-[3/4]">
-                  <img
-                    alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    src={member.image}
-                  />
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="font-headline-lg text-headline-lg text-primary mb-2">
+                Frequently Asked Questions
+              </h2>
+              <p className="font-body-lg text-on-surface-variant">
+                Everything you need to know about us
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              {[
+                {
+                  q: '1. What does Realic do?',
+                  a: 'Realic is a real estate channel partner in Bihar that helps property buyers explore available projects, understand their options, and navigate the property-buying process with informed guidance.',
+                },
+                {
+                  q: '2. How can Realic help me find the right property?',
+                  a: 'Realic helps you explore property options based on your preferences, budget, location, and requirements. Its team guides you through relevant project details so you can compare your options and make a more informed decision.',
+                },
+                {
+                  q: '3. Does Realic verify properties before listing them?',
+                  a: 'Realic follows a property verification process before listings are published. Buyers can connect with the team to understand the available property details and request relevant documentation before proceeding.',
+                },
+                {
+                  q: '4. Does Realic help with property documentation and pricing?',
+                  a: 'Realic aims to provide clear property information, documentation details, and pricing so buyers can better understand the terms involved. Specific legal checks and transaction requirements should be confirmed for each property.',
+                },
+                {
+                  q: '5. Why should I choose Realic as my real estate channel partner in Bihar?',
+                  a: 'Realic offers property guidance, access to relevant project information, and support throughout the buying journey. The goal is to help buyers understand their options and approach property decisions with greater clarity and confidence.',
+                },
+              ].map((faq, idx) => (
+                <div
+                  key={idx}
+                  className="bg-surface-pure p-6 sm:p-7 rounded-2xl border border-border-subtle shadow-xs hover:shadow-ambient transition-all"
+                >
+                  <h3 className="font-headline-sm text-base sm:text-lg font-bold text-primary mb-2 font-montserrat">
+                    {faq.q}
+                  </h3>
+                  <p className="font-body-md text-xs sm:text-sm text-text-medium-emphasis leading-relaxed">
+                    {faq.a}
+                  </p>
                 </div>
-                <h3 className="font-headline-sm text-headline-sm text-primary">{member.name}</h3>
-                <p className="font-label-bold text-label-bold text-secondary mb-2">{member.role}</p>
-                <p className="font-body-md text-body-md text-on-surface-variant text-sm leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </section>
 

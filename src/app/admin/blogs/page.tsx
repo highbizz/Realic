@@ -26,7 +26,7 @@ export default function AdminBlogsPage() {
     title: '',
     slug: '',
     category: 'Market Trends' as BlogArticle['category'],
-    coverImage: '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+    coverImage: '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
     excerpt: '',
     authorName: 'Amit Vikram',
     authorRole: 'Managing Director, Bihar & Eastern Corridor',
@@ -83,7 +83,7 @@ export default function AdminBlogsPage() {
       title: '',
       slug: '',
       category: 'Market Trends',
-      coverImage: '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+      coverImage: '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
       excerpt: '',
       authorName: 'Amit Vikram',
       authorRole: 'Managing Director, Bihar & Eastern Corridor',
@@ -632,7 +632,7 @@ export default function AdminBlogsPage() {
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.target as any).src =
-                      '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg';
+                      '/images/projects/venus-capital-heights/master-architectural-elevation.jpg';
                   }}
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">

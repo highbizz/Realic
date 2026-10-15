@@ -19,7 +19,7 @@ export const TrustPillarsSection: React.FC = () => {
               Verification First
             </h3>
             <p className="font-body-md text-body-md text-text-medium-emphasis">
-              Every property is physically inspected and verified for absolute transparency before listing.
+              Every property is physically inspected before listing, helping buyers make informed decisions with greater confidence.
             </p>
           </div>
 
@@ -37,7 +37,7 @@ export const TrustPillarsSection: React.FC = () => {
               Expert Guidance
             </h3>
             <p className="font-body-md text-body-md text-text-medium-emphasis">
-              Professional, SaaS-enabled agents dedicated to navigating your high-stakes decisions.
+              Dedicated property experts helping you evaluate your options and make informed property decisions.
             </p>
           </div>
 

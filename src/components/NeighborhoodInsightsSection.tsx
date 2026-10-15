@@ -25,7 +25,7 @@ export const NeighborhoodInsightsSection: React.FC = () => {
           <img
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 min-h-[300px] md:min-h-full"
             alt="Winsome Icon high-rise landmark towers on AIIMS-Digha elevated corridor in Patna"
-            src="/images/projects/winsome-icon/day-elevation-glass-tower.jpg"
+            src="/images/projects/winsome-icon/tower-front-elevation.jpg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
           <div className="absolute bottom-6 left-6 right-6">
@@ -46,7 +46,7 @@ export const NeighborhoodInsightsSection: React.FC = () => {
           <img
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 min-h-[200px]"
             alt="Durga Lifestyle residential tower on 100-Ft Atal Path corridor in Patna"
-            src="/images/projects/durga-lifestyle/full-tower-elevation-atal-path.jpg"
+            src="/images/projects/durga-lifestyle/facade-elevation.jpg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
           <div className="absolute bottom-4 left-4 right-4">
@@ -65,7 +65,7 @@ export const NeighborhoodInsightsSection: React.FC = () => {
           <img
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 min-h-[200px]"
             alt="Venus Capital Heights 16-acre royal estate on Bailey Road corridor in Patna"
-            src="/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg"
+            src="/images/projects/venus-capital-heights/master-architectural-elevation.jpg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent"></div>
           <div className="absolute bottom-4 left-4 right-4">

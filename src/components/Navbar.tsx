@@ -21,6 +21,11 @@ export const Navbar: React.FC = () => {
 
   const navLinks = [
     {
+      label: 'Home',
+      href: '/',
+      active: pathname === '/',
+    },
+    {
       label: 'Properties',
       href: '/properties',
       active: pathname === '/properties' || pathname?.startsWith('/properties'),
@@ -49,11 +54,6 @@ export const Navbar: React.FC = () => {
       label: 'About',
       href: '/about',
       active: pathname === '/about',
-    },
-    {
-      label: 'Reviews',
-      href: '/reviews',
-      active: pathname === '/reviews',
     },
     {
       label: 'Blogs',

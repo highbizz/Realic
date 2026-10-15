@@ -99,9 +99,15 @@ export const CuratedEstatesSection: React.FC = () => {
                   </button>
                 </div>
 
-                <p className="font-body-md text-body-md text-text-high-emphasis mb-1 font-semibold line-clamp-1">
-                  {property.title}
-                </p>
+                <div className="mb-1.5">
+                  <span className="text-[11px] font-bold text-neutral-800 bg-neutral-100 border border-neutral-300 px-2 py-0.5 rounded-full inline-flex items-center gap-1 mb-1">
+                    <span className="material-symbols-outlined text-[13px] text-amber-600">apartment</span>
+                    Project: {property.projectName || property.title.split(' - ')[0]}
+                  </span>
+                  <p className="font-body-md text-body-md text-text-high-emphasis font-semibold line-clamp-1">
+                    {property.title}
+                  </p>
+                </div>
                 <p className="font-body-sm text-text-medium-emphasis mb-4 line-clamp-1">
                   {property.location}
                 </p>

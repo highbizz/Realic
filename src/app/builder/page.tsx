@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://realicproperty.com/builder',
     images: [
       {
-        url: '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+        url: '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
         width: 1200,
         height: 630,
         alt: 'Realic Developer & Builder Advisory Patna',

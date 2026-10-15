@@ -41,3 +41,8 @@ backend/logs/*
 *.sln
 *.sw?
 Thumbs.db
+
+# Deployment archives & build folders
+*.zip
+hostinger_deploy/
+public_html_ready/

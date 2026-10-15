@@ -1,6 +1,7 @@
 export interface Property {
   id: string;
   slug: string;
+  projectName: string;
   title: string;
   subtitle: string;
   tagline: string;
@@ -76,6 +77,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "winsome-icon",
     "slug": "winsome-icon",
+    "projectName": "Winsome Icon",
     "title": "Winsome Icon - 18-Storey Landmark on AIIMS-Digha Elevated Corridor",
     "subtitle": "Patna's Tallest Iconic Towers with Panoramic Ganga River & Marine Drive Vistas",
     "tagline": "The pinnacle of architectural grandeur with rooftop infinity pool & 3-tier luxury",
@@ -403,6 +405,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "durga-lifestyle",
     "slug": "durga-lifestyle",
+    "projectName": "Durga Lifestyle",
     "title": "Durga Lifestyle - 32 Bespoke Presidential Residences on 100-Ft Atal Path",
     "subtitle": "Patna's Most Coveted Single-Tower Presidential Address on Atal Path",
     "tagline": "32 Vaastu compliant residences, 11-ft clear ceilings & bespoke panoramic vistas",
@@ -637,6 +640,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "winsome-pearlz",
     "slug": "winsome-pearlz",
+    "projectName": "Winsome Pearlz",
     "title": "Winsome Pearlz - Elegant 3 & 4 BHK + Servant Residences",
     "subtitle": "Modern High-Rise Sanctuary near Patliputra Station & Marine Drive",
     "tagline": "Ultra-modern architecture crafted for refined multi-generational living",
@@ -892,6 +896,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "winsome-elite",
     "slug": "winsome-elite",
+    "projectName": "Winsome Elite",
     "title": "Winsome Elite - Premium High-Rise Living with 20-Ft Wide Avenues",
     "subtitle": "Sophisticated 3 & 4 BHK Residences with Grand Gateway Architecture",
     "tagline": "Exclusive gated haven featuring expansive driveways and sky amenities",
@@ -1200,6 +1205,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "winsome-hari-pearlz",
     "slug": "winsome-hari-pearlz",
+    "projectName": "Winsome Hari Pearlz",
     "title": "Winsome Hari Pearlz - Riverside Luxury & High-Street Retail",
     "subtitle": "Mixed-Use Masterpiece with 10 Ground Commercial Shops & Luxury Suites",
     "tagline": "Waterfront luxury living seamlessly integrated with boutique shopping arcade",
@@ -1461,6 +1467,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "durga-77",
     "slug": "durga-77",
+    "projectName": "Durga 77",
     "title": "Durga 77 - Signature Urban Residences on Digha-Atal Corridor",
     "subtitle": "Iconic Terracotta Architecture with Vertical Balcony Gardens & Resort Living",
     "tagline": "4BHK bespoke presidential residences, rooftop sky lounge & 32+ world-class amenities",
@@ -1772,6 +1779,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "venus-capital-heights",
     "slug": "venus-capital-heights",
+    "projectName": "Venus Capital Heights",
     "title": "Venus Capital Heights - 16-Acre Royal Estate Designed by Hafeez Contractor",
     "subtitle": "The Tallest, Largest & Mightiest 11-Tower Gated Landmark in Danapur",
     "tagline": "16 acres estate with 85% open spaces, 70,000 sq.ft Club Royale, all-weather indoor pool, and triple-height grand lobbies",
@@ -2075,6 +2083,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "satvika-rajpati-enclave",
     "slug": "satvika-rajpati-enclave",
+    "projectName": "Satvika Rajpati Enclave",
     "title": "Satvika Rajpati Enclave - Elite Gated Residences in Mithila Colony",
     "subtitle": "Boutique 2 & 3 BHK Urban Residences Crafted by Satvika Group",
     "tagline": "Earthquake-resistant architecture, rooftop terrace garden, and rapid Danapur-Digha corridor connectivity",
@@ -2365,6 +2374,7 @@ export const PROPERTIES: Property[] = [
   {
     "id": "kb-double-side-boulevard",
     "slug": "kb-double-side-boulevard",
+    "projectName": "KB Double-Side Boulevard",
     "title": "KB Double-Side Boulevard - Premium Dual-Frontage Residences",
     "subtitle": "Distinctive Corner Landmark with Dual 40-Ft Wide Boulevard Frontage",
     "tagline": "Supreme cross-ventilation, expansive double-road access, and upscale modern living",
@@ -2396,9 +2406,9 @@ export const PROPERTIES: Property[] = [
     "description": "KB Double-Side Boulevard occupies a prized dual-frontage corner parcel on the Danapur-Khagaul corridor. Featuring wide 40-foot double-sided avenue access, the development guarantees panoramic open vistas, superior natural cross-ventilation, and effortless vehicle ingress and egress. Comprising thoughtfully designed 3 & 4 BHK residences with private balconies, rooftop recreational facilities, and comprehensive 3-tier security.",
     "images": [
       "/images/projects/durga-lifestyle/luxury-retail-boulevard.jpg",
-      "/images/projects/winsome-elite/20ft-wide-internal-boulevard.jpg",
-      "/images/projects/winsome-elite/grand-entrance-royal-arch.jpg",
-      "/images/projects/durga-77/terracotta-tower-facade.jpg"
+      "/images/projects/durga-lifestyle/entrance-driveway-plaza.jpg",
+      "/images/projects/winsome-elite/aerial-campus-overview.jpg",
+      "/images/projects/durga-77/img77.jpg"
     ],
     "features": [
       "Dual 40-Ft Wide Double-Side Avenue Frontage",

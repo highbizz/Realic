@@ -283,45 +283,6 @@ export default function BlogsClient() {
           </>
         )}
       </section>
-
-      {/* Newsletter / Institutional Advisory Briefing */}
-      <section className="py-16 bg-neutral-50 border-t border-neutral-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-neutral-200 text-neutral-900 text-xs font-bold uppercase tracking-wider mb-4 shadow-xs">
-            Private Investor Briefing
-          </div>
-          <h3 className="text-2xl sm:text-3xl font-bold font-montserrat text-neutral-950">
-            Receive Our Monthly Patna Real Estate Intelligence
-          </h3>
-          <p className="mt-3 text-sm text-neutral-600 max-w-xl mx-auto">
-            Get exclusive early access to pre-launch sky penthouses, infrastructure growth updates, and 30-year title diligence reports directly in your inbox.
-          </p>
-
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert('Thank you for subscribing to Realic Institutional Briefings.');
-            }}
-            className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              required
-              placeholder="Enter your email address"
-              className="w-full px-4 py-3 rounded-xl bg-white border border-neutral-300 text-neutral-900 text-xs placeholder:text-neutral-400 focus:outline-none focus:border-neutral-900 focus:ring-1 focus:ring-neutral-900 transition-all"
-            />
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-wider shadow-xs transition-all whitespace-nowrap cursor-pointer"
-            >
-              Subscribe
-            </button>
-          </form>
-          <p className="text-[11px] text-neutral-500 mt-3">
-            Zero spam. Strictly confidential institutional research.
-          </p>
-        </div>
-      </section>
     </div>
   );
 }

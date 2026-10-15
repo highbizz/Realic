@@ -4,6 +4,7 @@ import { TrustPillarsSection } from '@/components/TrustPillarsSection';
 import { CuratedEstatesSection } from '@/components/CuratedEstatesSection';
 import { MortgageCalculatorSection } from '@/components/MortgageCalculatorSection';
 import { NeighborhoodInsightsSection } from '@/components/NeighborhoodInsightsSection';
+import { HomeReviewsSection } from '@/components/HomeReviewsSection';
 
 export default function HomePage() {
   return (
@@ -22,6 +23,9 @@ export default function HomePage() {
 
       {/* 5. Neighborhood Insights Bento Grid (South Delhi, Bandra West, Whitefield) */}
       <NeighborhoodInsightsSection />
+
+      {/* 6. Verified Client Reviews & Endorsements */}
+      <HomeReviewsSection />
     </div>
   );
 }

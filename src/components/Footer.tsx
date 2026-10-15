@@ -158,6 +158,7 @@ export const Footer: React.FC = () => {
               <a
                 href="mailto:support@realic.in"
                 className="flex items-center gap-2 hover:text-amber-400 transition-colors"
+                
               >
                 <span className="material-symbols-outlined text-amber-400 text-sm">mail</span>
                 <span>support@realic.in</span>

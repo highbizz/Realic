@@ -28,7 +28,7 @@ export const HeroSection: React.FC = () => {
         <div
           className="bg-cover bg-right lg:bg-center w-full h-full opacity-60 lg:opacity-75 transition-opacity duration-700"
           style={{
-            backgroundImage: `url('/images/projects/winsome-icon/day-elevation-glass-tower.jpg')`,
+            backgroundImage: `url('/images/projects/winsome-icon/tower-front-elevation.jpg')`,
             backgroundPosition: 'right 20% center',
           }}
         />
@@ -39,13 +39,12 @@ export const HeroSection: React.FC = () => {
       <div className="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8">
         <div className="lg:col-span-8 space-y-8">
           {/* Main Title with enlarged impactful size and line break */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[90px] font-black text-text-high-emphasis leading-[1.03] tracking-tight font-montserrat">
-            Your Vision of Home,<br />
-            Realized.
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] font-black text-text-high-emphasis leading-[1.05] tracking-tight font-montserrat">
+            Making Property Decisions Simpler.
           </h1>
 
           <p className="font-body-lg text-body-lg md:text-xl text-text-medium-emphasis max-w-2xl leading-relaxed">
-            Experience unparalleled real estate consultancy. We blend data-driven insights with boutique service to guide your high-stakes property decisions.
+            Realic is your real estate channel partner in Bihar, helping you explore property opportunities with clarity, informed guidance, and personalized support.
           </p>
 
           {/* Interactive Search Console Card */}

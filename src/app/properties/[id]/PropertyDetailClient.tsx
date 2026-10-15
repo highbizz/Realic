@@ -122,6 +122,10 @@ export default function PropertyDetailClient({ property }: Props) {
         <div className="mb-8 flex flex-col md:flex-row md:items-start justify-between gap-6">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-3">
+              <span className="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-900 border border-amber-200 flex items-center gap-1">
+                <span className="material-symbols-outlined text-[13px] text-amber-600">apartment</span>
+                Project: {property.projectName || property.title.split(' - ')[0]}
+              </span>
               <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-neutral-900 text-white">
                 {property.propertyType}
               </span>

@@ -42,7 +42,7 @@ export const metadata: Metadata = {
       'Verified luxury estates, penthouses, and modern high-rises in Patna with complete legal title audit and seamless closing.',
     images: [
       {
-        url: '/images/projects/winsome-icon/day-elevation-glass-tower.jpg',
+        url: '/images/projects/winsome-icon/tower-front-elevation.jpg',
         width: 1200,
         height: 630,
         alt: 'Realic Property Consultant Luxury Residences Patna',
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: 'Realic Property Consultant | High-End Real Estate',
     description:
       'Curated luxury residences in Patna with verified legal title diligence.',
-    images: ['/images/projects/winsome-icon/day-elevation-glass-tower.jpg'],
+    images: ['/images/projects/winsome-icon/tower-front-elevation.jpg'],
   },
   robots: {
     index: true,

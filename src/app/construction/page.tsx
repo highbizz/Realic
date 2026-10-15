@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://realicproperty.com/construction',
     images: [
       {
-        url: '/images/projects/winsome-icon/day-elevation-glass-tower.jpg',
+        url: '/images/projects/winsome-icon/tower-front-elevation.jpg',
         width: 1200,
         height: 630,
         alt: 'Realic Turnkey Structural Construction Patna',

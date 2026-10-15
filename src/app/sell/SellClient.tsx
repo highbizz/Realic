@@ -387,7 +387,7 @@ export default function SellClient() {
         <div className="bg-surface-pure p-8 sm:p-12 rounded-3xl border border-border-subtle shadow-ambient">
           <div className="text-center max-w-xl mx-auto mb-8">
             <h2 className="text-2xl sm:text-3xl font-extrabold font-montserrat text-primary">
-              Submit Your Property for Instant Cash Review
+              Submit Your Property for Instant Price Review
             </h2>
             <p className="text-xs sm:text-sm text-text-medium-emphasis mt-2">
               Our acquisitions desk will review your submission and contact you within 24 hours with a formal proposal.
@@ -480,50 +480,14 @@ export default function SellClient() {
                 type="submit"
                 className="w-full py-4 bg-black hover:bg-neutral-800 text-white font-bold text-sm rounded-xl shadow-xs transition-all active:scale-95 cursor-pointer mt-2"
               >
-                Submit Property for Cash Evaluation
+                Submit Property for Price Evaluation
               </button>
             </form>
           )}
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="py-16 bg-neutral-50 border-t border-neutral-200 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-extrabold font-montserrat text-black">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs text-neutral-600 mt-1">
-              Everything you need to know about selling to Realic.
-            </p>
-          </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-neutral-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 text-left font-bold text-sm text-black flex items-center justify-between hover:text-neutral-700 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <span className="material-symbols-outlined text-lg text-neutral-400">
-                    {openFaq === idx ? 'expand_less' : 'expand_more'}
-                  </span>
-                </button>
-                {openFaq === idx && (
-                  <div className="px-5 pb-5 text-xs text-neutral-600 leading-relaxed border-t border-neutral-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

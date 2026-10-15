@@ -325,7 +325,8 @@
           "description": "Executive floorplan configured for premium corporate offices, medical suites, law chambers, and financial consultation hubs.",
           "image": "/images/projects/winsome-icon/floorplan-commercial-level-3.jpg"
         }
-      ]
+      ],
+      "projectName": "Winsome Icon"
     },
     {
       "id": "durga-lifestyle",
@@ -611,7 +612,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "Durga Lifestyle"
     },
     {
       "id": "winsome-pearlz",
@@ -866,7 +868,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "Winsome Pearlz"
     },
     {
       "id": "winsome-elite",
@@ -1174,7 +1177,8 @@
           "description": "Isometric 3D layout of Flat 103 highlighting seamless entertaining flow between living lounge and dining room, private bedroom wings, and wide scenic balconies.",
           "image": "/images/projects/winsome-elite/isometric-3bhk-flat-103.jpg"
         }
-      ]
+      ],
+      "projectName": "Winsome Elite"
     },
     {
       "id": "winsome-hari-pearlz",
@@ -1435,7 +1439,8 @@
           "description": "Isometric 3D plan of 3 BHK Unit 4 with streamlined flow between living areas, designer kitchen, and private bedrooms.",
           "image": "/images/projects/winsome-hari-pearlz/isometric-3bhk-unit4.jpg"
         }
-      ]
+      ],
+      "projectName": "Winsome Hari Pearlz"
     },
     {
       "id": "durga-77",
@@ -1746,7 +1751,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "Durga 77"
     },
     {
       "id": "venus-capital-heights",
@@ -2049,7 +2055,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "Venus Capital Heights"
     },
     {
       "id": "satvika-rajpati-enclave",
@@ -2339,7 +2346,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "Satvika Rajpati Enclave"
     },
     {
       "id": "kb-double-side-boulevard",
@@ -2375,9 +2383,9 @@
       "description": "KB Double-Side Boulevard occupies a prized dual-frontage corner parcel on the Danapur-Khagaul corridor. Featuring wide 40-foot double-sided avenue access, the development guarantees panoramic open vistas, superior natural cross-ventilation, and effortless vehicle ingress and egress. Comprising thoughtfully designed 3 & 4 BHK residences with private balconies, rooftop recreational facilities, and comprehensive 3-tier security.",
       "images": [
         "/images/projects/durga-lifestyle/luxury-retail-boulevard.jpg",
-        "/images/projects/winsome-elite/20ft-wide-internal-boulevard.jpg",
-        "/images/projects/winsome-elite/grand-entrance-royal-arch.jpg",
-        "/images/projects/durga-77/terracotta-tower-facade.jpg"
+        "/images/projects/durga-lifestyle/entrance-driveway-plaza.jpg",
+        "/images/projects/winsome-elite/aerial-campus-overview.jpg",
+        "/images/projects/durga-77/img77.jpg"
       ],
       "features": [
         "Dual 40-Ft Wide Double-Side Avenue Frontage",
@@ -2474,7 +2482,8 @@
         "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80"
       },
       "verified": true,
-      "featured": true
+      "featured": true,
+      "projectName": "KB Double-Side Boulevard"
     }
   ],
   "blogs": [

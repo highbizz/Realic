@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import SellClient from './SellClient';
 
 export const metadata: Metadata = {
-  title: 'Sell Your Property Seamlessly | Instant Cash Offer & Valuation',
+  title: 'Sell Your Property Seamlessly | Instant Price Offer & Valuation',
   description:
     'Sell your luxury apartment, penthouse, or residential property in Patna without public showings or staging. Receive a data-backed valuation and closing certainty within 24 hours.',
   openGraph: {

@@ -275,7 +275,7 @@ export default function BuilderClient() {
       gdv: '₹ 220 Cr GDV',
       result: 'Highest Absorption Velocity in Corridor',
       role: 'Branding, Experience Lounge & NRI Syndication',
-      image: '/images/projects/winsome-icon/day-elevation-glass-tower.jpg',
+      image: '/images/projects/winsome-icon/tower-front-elevation.jpg',
     },
     {
       title: 'Durga Lifestyle Presidential Residences',
@@ -285,7 +285,7 @@ export default function BuilderClient() {
       gdv: '₹ 95 Cr GDV',
       result: '78% Pre-Sales at Structural Milestone',
       role: 'Private Client Wealth Liaison & Retail Structuring',
-      image: '/images/projects/durga-lifestyle/full-tower-elevation-atal-path.jpg',
+      image: '/images/projects/durga-lifestyle/facade-elevation.jpg',
     },
     {
       title: 'Venus Capital Heights Integrated Township',
@@ -295,7 +295,7 @@ export default function BuilderClient() {
       gdv: '₹ 650 Cr GDV',
       result: 'Patna Benchmark Absorption & Institutional Due Diligence',
       role: 'Township Positioning & Corporate NRI Alliances',
-      image: '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+      image: '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
     },
   ];
 
@@ -339,11 +339,11 @@ export default function BuilderClient() {
               </div>
 
               <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold font-montserrat tracking-tight leading-tight text-black">
-                Strategic Advisory for <span className="underline decoration-neutral-300">Grade-A Developers.</span>
+                Strategic Sales Advisory for Premier Builders &amp; Landowners
               </h1>
 
               <p className="text-neutral-600 text-base md:text-lg max-w-xl leading-relaxed">
-                Unlock peak Gross Development Value (GDV), assess true buyer demand, and eliminate unsold inventory. We partner with landowners and visionary builders across Patna prime luxury corridors for turnkey sole-selling, JDA structuring, and capital syndication.
+                We help Patna&apos;s most trusted developers unlock peak project value, verify true buyer demand, and clear unsold inventory faster. From turnkey sole-selling mandates to PMDA/RERA compliance and pre-sales capital planning, Realic partners with visionaries across prime corridors like Digha, Danapur, Nainital and Atal Path.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -388,7 +388,7 @@ export default function BuilderClient() {
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-neutral-200 group">
                 <img
-                  src="/images/projects/winsome-icon/day-elevation-glass-tower.jpg"
+                  src="/images/projects/winsome-icon/tower-front-elevation.jpg"
                   alt="Winsome Icon 18-Storey Landmark"
                   className="w-full h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -405,9 +405,9 @@ export default function BuilderClient() {
         </div>
       </section>
 
-      {/* 4 Pillars of Developer Collaboration */}
+      {/* 3 Pillars of Developer Collaboration */}
       <section className="py-12 bg-white border-b border-neutral-200 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 rounded-2xl bg-neutral-50 border border-neutral-200 flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-black shrink-0">
               <span className="material-symbols-outlined text-2xl">rocket_launch</span>
@@ -415,7 +415,7 @@ export default function BuilderClient() {
             <div>
               <h3 className="font-bold text-sm text-black font-montserrat">High-Speed Absorption</h3>
               <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                Clear 70%+ of inventory within 180 days through targeted digital campaigns and private wealth desks.
+                Clear 70%+ of pre-launch inventory within 6–9 months through targeted digital campaigns and private wealth desks.
               </p>
             </div>
           </div>
@@ -434,24 +434,12 @@ export default function BuilderClient() {
 
           <div className="p-6 rounded-2xl bg-neutral-50 border border-neutral-200 flex items-start gap-4">
             <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-black shrink-0">
-              <span className="material-symbols-outlined text-2xl">public</span>
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-black font-montserrat">Global NRI Investor Desk</h3>
-              <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                Direct roadshows and digital syndication across Dubai, Singapore, and Silicon Valley tech diaspora.
-              </p>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-neutral-50 border border-neutral-200 flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-200 flex items-center justify-center text-black shrink-0">
               <span className="material-symbols-outlined text-2xl">account_balance</span>
             </div>
             <div>
-              <h3 className="font-bold text-sm text-black font-montserrat">RERA Escrow Structuring</h3>
+              <h3 className="font-bold text-sm text-black font-montserrat">RERA Compliance Governance</h3>
               <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                Complete compliance governance, designated banking escrow setups, and quarterly RERA audits.
+                Complete compliance governance, advisory on escrow setups, and quarterly audit readiness.
               </p>
             </div>
           </div>
@@ -463,7 +451,7 @@ export default function BuilderClient() {
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-800 text-xs font-bold border border-blue-200 mb-3">
             <span className="material-symbols-outlined text-sm">trending_up</span>
-            Realic Market Intelligence • 2026 Micro-Market Study
+            Realic Demand &amp; Price Survey
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold font-montserrat text-black">
             Corridor Demand &amp; Price Expectation Survey
@@ -898,7 +886,7 @@ export default function BuilderClient() {
                   Joint Development Agreement (JDA)
                 </h3>
                 <p className="text-xs text-text-medium-emphasis leading-relaxed mb-6">
-                  Landowners contribute clear land, Grade-A builders fund construction, and Realic oversees legal vetting, escrow security, and area/revenue distribution.
+                  Landowners contribute clear land, builders fund construction, and Realic oversees legal vetting, escrow security, and area/revenue distribution.
                 </p>
 
                 <ul className="space-y-2.5 text-xs text-neutral-600 border-t border-border-subtle pt-4">
@@ -1445,43 +1433,7 @@ export default function BuilderClient() {
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="py-16 bg-neutral-50 border-t border-neutral-200 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-extrabold font-montserrat text-black">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs text-neutral-600 mt-1">
-              Key operational, pricing, and legal questions on partnering with Realic Advisory.
-            </p>
-          </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-neutral-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 text-left font-bold text-sm text-black flex items-center justify-between hover:text-neutral-700 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <span className="material-symbols-outlined text-lg text-neutral-400">
-                    {openFaq === idx ? 'expand_less' : 'expand_more'}
-                  </span>
-                </button>
-                {openFaq === idx && (
-                  <div className="px-5 pb-5 text-xs text-neutral-600 leading-relaxed border-t border-neutral-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

@@ -31,7 +31,7 @@ export const INITIAL_BLOGS: BlogArticle[] = [
       'Analyzing how metro connectivity, AIIMS expansion, and institutional RERA regulations are turning Patna into Bihar premier wealth and luxury residential market.',
     category: 'Patna Corridors',
     coverImage:
-      '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+      '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
     author: {
       name: 'Amit Vikram',
       role: 'Managing Director, Bihar & Eastern Corridor',
@@ -69,7 +69,7 @@ For buyers, the most critical shift has been the enforcement of Bihar RERA (BR-R
       'A forensic legal guide on verifying encumbrance certificates, mother deeds, and sanction plans before acquiring luxury properties in India.',
     category: 'Legal & RERA',
     coverImage:
-      '/images/projects/durga-lifestyle/full-tower-elevation-atal-path.jpg',
+      '/images/projects/durga-lifestyle/facade-elevation.jpg',
     author: {
       name: 'Julian Mercer',
       role: 'Head of Legal & Compliance Counsel',
@@ -145,7 +145,7 @@ Before making a financial commitment, our clients receive detailed 4K uncompress
       'Exploring the architectural philosophy behind panoramic cantilevered glass terraces, infinity pools, and riverfront living along Patna Ganga Pathway.',
     category: 'Luxury Living',
     coverImage:
-      '/images/projects/winsome-icon/day-elevation-glass-tower.jpg',
+      '/images/projects/winsome-icon/tower-front-elevation.jpg',
     author: {
       name: 'Amit Vikram',
       role: 'Managing Director, Bihar & Eastern Corridor',

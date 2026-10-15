@@ -104,7 +104,7 @@ export default function ConstructionClient() {
       status: 'Under Construction (RCC Superstructure)',
       duration: '18-Storey Monolithic Frame',
       steel: 'Tata Tiscon Fe 550D + M35 Self-Compacting RMC',
-      image: '/images/projects/winsome-icon/day-elevation-glass-tower.jpg',
+      image: '/images/projects/winsome-icon/tower-front-elevation.jpg',
     },
     {
       title: 'Durga Lifestyle Boutique Residences',
@@ -114,7 +114,7 @@ export default function ConstructionClient() {
       status: 'Under Construction',
       duration: 'Superstructure In Progress',
       steel: 'Seismic Zone IV Ductile Detailing & Waterproofed Double Basement',
-      image: '/images/projects/durga-lifestyle/full-tower-elevation-atal-path.jpg',
+      image: '/images/projects/durga-lifestyle/facade-elevation.jpg',
     },
     {
       title: 'Venus Capital Heights Integrated Estate',
@@ -124,7 +124,7 @@ export default function ConstructionClient() {
       status: 'Active Phased Execution',
       duration: 'Master-Planned Delivery',
       steel: 'Ar. Hafeez Contractor Benchmark & High-Grade Rebar',
-      image: '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg',
+      image: '/images/projects/venus-capital-heights/master-architectural-elevation.jpg',
     },
     {
       title: 'Satvika Rajpati Enclave Gated Residences',
@@ -226,7 +226,7 @@ export default function ConstructionClient() {
             <div className="lg:col-span-5">
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-neutral-200 group">
                 <img
-                  src="/images/projects/winsome-icon/day-elevation-glass-tower.jpg"
+                  src="/images/projects/winsome-icon/tower-front-elevation.jpg"
                   alt="Winsome Icon High-Rise Structural Construction"
                   className="w-full h-[420px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -289,7 +289,7 @@ export default function ConstructionClient() {
             <div>
               <h3 className="font-bold text-sm text-black font-montserrat">Municipal Sanctions</h3>
               <p className="text-xs text-neutral-600 mt-1 leading-relaxed">
-                End-to-end BIDA, PMC, and BBMP municipal approvals, soil testing, and certified structural vetting.
+                End-to-end PMDA, RERA Bihar, and BDA municipal approvals, soil testing, and certified structural vetting.
               </p>
             </div>
           </div>
@@ -627,33 +627,6 @@ export default function ConstructionClient() {
         </div>
       </section>
 
-      {/* Brand Standards */}
-      <section className="py-12 bg-neutral-50 border-y border-neutral-200 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 mb-6">
-            Structural Material &amp; Engineering Standards
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-80">
-            {[
-              'TATA TISCON 550D',
-              'ULTRATECH SUPER',
-              'ACC GOLD',
-              'JINDAL PANTHER',
-              'SUPREME CPVC',
-              'SCHNEIDER ELECTRIC',
-              'FENESTA UPVC',
-              'ASIAN PAINTS APEX',
-            ].map((brand) => (
-              <span
-                key={brand}
-                className="font-montserrat font-extrabold text-xs sm:text-sm tracking-widest text-neutral-700 hover:text-black transition-colors"
-              >
-                {brand}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Book Site Survey Form */}
       <section id="survey-form" className="py-16 md:py-24 px-4 md:px-8 max-w-4xl mx-auto">
@@ -804,43 +777,7 @@ export default function ConstructionClient() {
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="py-16 bg-neutral-50 border-t border-neutral-200 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-extrabold font-montserrat text-black">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs text-neutral-600 mt-1">
-              Key details regarding Realic Turnkey Structural Construction contracts and engineering guarantees.
-            </p>
-          </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-neutral-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 text-left font-bold text-sm text-black flex items-center justify-between hover:text-neutral-700 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <span className="material-symbols-outlined text-lg text-neutral-400">
-                    {openFaq === idx ? 'expand_less' : 'expand_more'}
-                  </span>
-                </button>
-                {openFaq === idx && (
-                  <div className="px-5 pb-5 text-xs text-neutral-600 leading-relaxed border-t border-neutral-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

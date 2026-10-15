@@ -192,7 +192,7 @@ export default function InteriorClient() {
               </h1>
 
               <p className="text-neutral-600 text-base md:text-lg max-w-xl leading-relaxed">
-                Elevate your luxury apartment, penthouse, or villa with institutional design precision. From photorealistic 3D VR walkthroughs to precision German cabinetry and Italian marble curation.
+                Elevate your luxury home with institutional design precision. From photorealistic 3D VR walkthroughs to precision German cabinetry and Italian marble curation.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -621,26 +621,6 @@ export default function InteriorClient() {
         </div>
       </section>
 
-      {/* Brand & Material Partners Marquee */}
-      <section className="py-12 bg-neutral-50 border-y border-neutral-200 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 mb-6">
-            Institutional Material &amp; Hardware Partners
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12 opacity-80">
-            {['BLUM AUSTRIA', 'HÄFELE GERMANY', 'SAINT-GOBAIN', 'CAESARSTONE', 'KOHLER', 'GROHE', 'ASIAN PAINTS ROYALE', 'GREENLAM'].map(
-              (brand) => (
-                <span
-                  key={brand}
-                  className="font-montserrat font-extrabold text-xs sm:text-sm tracking-widest text-neutral-700 hover:text-black transition-colors"
-                >
-                  {brand}
-                </span>
-              )
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* Book 3D Consultation Form */}
       <section id="consultation-form" className="py-16 md:py-24 px-4 md:px-8 max-w-4xl mx-auto">
@@ -652,9 +632,7 @@ export default function InteriorClient() {
             <h2 className="text-2xl sm:text-3xl font-extrabold font-montserrat text-primary mt-1">
               Book a Private 3D Interior Design Session
             </h2>
-            <p className="text-xs sm:text-sm text-text-medium-emphasis mt-2">
-              Meet our Senior Design Principal at your site or our Patna Headquarters Experience Center.
-            </p>
+
           </div>
 
           {formSubmitted ? (
@@ -776,43 +754,7 @@ export default function InteriorClient() {
         </div>
       </section>
 
-      {/* FAQ Accordion */}
-      <section className="py-16 bg-neutral-50 border-t border-neutral-200 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl font-extrabold font-montserrat text-black">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xs text-neutral-600 mt-1">
-              Everything you need to know about Realic Bespoke Interior Architecture.
-            </p>
-          </div>
 
-          <div className="space-y-3">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl border border-neutral-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full p-5 text-left font-bold text-sm text-black flex items-center justify-between hover:text-neutral-700 transition-colors"
-                >
-                  <span>{faq.q}</span>
-                  <span className="material-symbols-outlined text-lg text-neutral-400">
-                    {openFaq === idx ? 'expand_less' : 'expand_more'}
-                  </span>
-                </button>
-                {openFaq === idx && (
-                  <div className="px-5 pb-5 text-xs text-neutral-600 leading-relaxed border-t border-neutral-100 pt-3">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
