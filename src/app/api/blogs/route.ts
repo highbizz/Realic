@@ -1,16 +1,21 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
+import { revalidatePath } from 'next/cache';
 import { getAllBlogs, createBlog } from '@/data/store';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const query = searchParams.get('q');
+    const fetchAll =
+      searchParams.get('all') === 'true' || searchParams.get('status') === 'all';
 
-    let blogs = getAllBlogs();
+    let blogs = getAllBlogs(fetchAll);
 
-    if (category && category !== 'All') {
+    if (category && category !== 'All' && category !== 'all') {
       blogs = blogs.filter((b) => b.category.toLowerCase() === category.toLowerCase());
     }
 
@@ -25,10 +30,10 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json(
-      { success: true, count: blogs.length, data: blogs },
+      { success: true, count: blogs.length, data: blogs, posts: blogs },
       {
         headers: {
-          'Cache-Control': 'no-store',
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         },
       }
     );
@@ -46,15 +51,25 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!body.title || !body.excerpt || !body.content) {
+    if (!body.title) {
       return NextResponse.json(
-        { success: false, error: 'Missing required blog fields (title, excerpt, content)' },
+        { success: false, error: 'Missing required blog title' },
         { status: 400 }
       );
     }
 
     const created = createBlog(body);
-    return NextResponse.json({ success: true, data: created }, { status: 201 });
+
+    try {
+      revalidatePath('/blogs');
+      revalidatePath(`/blogs/${created.slug}`);
+      revalidatePath('/admin/blogs');
+    } catch (_) {}
+
+    return NextResponse.json(
+      { success: true, data: created, post: created, postId: created.id },
+      { status: 201 }
+    );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to create blog' },

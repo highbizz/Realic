@@ -40,6 +40,214 @@ function fileMtime(): number {
   }
 }
 
+const DEFAULT_AUTHOR_AVATAR =
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80';
+const DEFAULT_COVER_IMAGE =
+  '/images/projects/venus-capital-heights/palatial-tower-facade-elevation.jpg';
+
+function formatReadableDate(val?: string | null): string {
+  if (!val) {
+    return new Date().toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+  const parsed = new Date(val);
+  if (!isNaN(parsed.getTime())) {
+    return parsed.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  }
+  return String(val);
+}
+
+export function normalizeBlog(raw: any, existing?: BlogArticle): BlogArticle {
+  const base = existing ? { ...existing, ...raw } : { ...raw };
+
+  const title = String(base.title || 'Untitled Article').trim();
+  const cleanSlug = String(
+    base.slug ||
+      title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '')
+  ).trim();
+
+  const id = String(base.id || cleanSlug || `blog-${Date.now()}`);
+
+  // Author resolution (supports both Klane string `author` and Realic object `author`)
+  const rawAuthor = raw?.author !== undefined ? raw.author : existing?.author;
+  let authorName = 'Amit Vikram';
+  let authorRole = 'Managing Director, Bihar & Eastern Corridor';
+  let authorAvatar = DEFAULT_AUTHOR_AVATAR;
+
+  if (typeof rawAuthor === 'string' && rawAuthor.trim()) {
+    authorName = rawAuthor.trim();
+    authorRole =
+      raw?.author_role ??
+      raw?.authorRole ??
+      existing?.author?.role ??
+      existing?.author_role ??
+      authorRole;
+    authorAvatar =
+      raw?.author_avatar ??
+      raw?.authorAvatar ??
+      existing?.author?.avatar ??
+      existing?.author_avatar ??
+      authorAvatar;
+  } else if (rawAuthor && typeof rawAuthor === 'object') {
+    authorName =
+      rawAuthor.name ||
+      raw?.author_name ||
+      raw?.authorName ||
+      existing?.author?.name ||
+      authorName;
+    authorRole =
+      rawAuthor.role ||
+      raw?.author_role ||
+      raw?.authorRole ||
+      existing?.author?.role ||
+      authorRole;
+    authorAvatar =
+      rawAuthor.avatar ||
+      raw?.author_avatar ||
+      raw?.authorAvatar ||
+      existing?.author?.avatar ||
+      authorAvatar;
+  } else if (raw?.author_name || raw?.authorName) {
+    authorName = raw.author_name || raw.authorName;
+    authorRole = raw.author_role || raw.authorRole || existing?.author?.role || authorRole;
+    authorAvatar = raw.author_avatar || raw.authorAvatar || existing?.author?.avatar || authorAvatar;
+  }
+
+  // Cover image resolution
+  const coverImage =
+    raw?.featured_image !== undefined
+      ? raw.featured_image || raw.coverImage || DEFAULT_COVER_IMAGE
+      : raw?.coverImage !== undefined
+      ? raw.coverImage || DEFAULT_COVER_IMAGE
+      : existing?.coverImage || existing?.featured_image || DEFAULT_COVER_IMAGE;
+
+  // Read time resolution
+  const readTime =
+    raw?.read_time ||
+    raw?.readTime ||
+    existing?.readTime ||
+    existing?.read_time ||
+    '5 min read';
+
+  // Published date resolution
+  const rawPublished =
+    raw?.published_at !== undefined
+      ? raw.published_at
+      : raw?.publishedAt !== undefined
+      ? raw.publishedAt
+      : existing?.published_at || existing?.publishedAt;
+  const publishedAt = formatReadableDate(rawPublished);
+  const published_at = rawPublished || publishedAt;
+
+  // Status resolution
+  const status: 'draft' | 'published' =
+    base.status === 'draft' ? 'draft' : 'published';
+
+  // Featured resolution
+  const featured =
+    raw?.featured !== undefined
+      ? Boolean(raw.featured === 1 || raw.featured === true || raw.featured === '1')
+      : Boolean(existing?.featured);
+
+  // Tags resolution
+  let tags: string[] = [];
+  const rawTags = raw?.tags !== undefined ? raw.tags : existing?.tags;
+  if (Array.isArray(rawTags)) {
+    tags = rawTags.map((t: any) => String(t).trim()).filter(Boolean);
+  } else if (typeof rawTags === 'string') {
+    tags = rawTags
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+  }
+
+  // Keywords resolution
+  let keywords: string[] = tags;
+  const rawKeywords = raw?.keywords !== undefined ? raw.keywords : existing?.keywords;
+  if (Array.isArray(rawKeywords)) {
+    keywords = rawKeywords.map((k: any) => String(k).trim()).filter(Boolean);
+  } else if (typeof rawKeywords === 'string' && rawKeywords.trim()) {
+    keywords = rawKeywords
+      .split(',')
+      .map((k) => k.trim())
+      .filter(Boolean);
+  }
+
+  // Meta title & description resolution
+  const metaTitle =
+    raw?.meta_title !== undefined
+      ? raw.meta_title || ''
+      : raw?.metaTitle !== undefined
+      ? raw.metaTitle || ''
+      : existing?.metaTitle || existing?.meta_title || `${title} | Realic Property Consultant`;
+
+  const metaDescription =
+    raw?.meta_description !== undefined
+      ? raw.meta_description || ''
+      : raw?.metaDescription !== undefined
+      ? raw.metaDescription || ''
+      : existing?.metaDescription || existing?.meta_description || base.excerpt || '';
+
+  // Content resolution
+  const content =
+    typeof base.content === 'string'
+      ? base.content
+      : JSON.stringify(base.content || []);
+
+  const nowIso = new Date().toISOString();
+
+  return {
+    id,
+    slug: cleanSlug,
+    title,
+    title_hindi: base.title_hindi ?? existing?.title_hindi ?? '',
+    excerpt: base.excerpt ?? existing?.excerpt ?? '',
+    content,
+    category: base.category || existing?.category || 'Market Trends',
+    category_hindi: base.category_hindi ?? existing?.category_hindi ?? '',
+    coverImage,
+    featured_image: coverImage,
+    author: {
+      name: authorName,
+      role: authorRole,
+      avatar: authorAvatar,
+    },
+    author_name: authorName,
+    author_role: authorRole,
+    author_avatar: authorAvatar,
+    status,
+    publishedAt,
+    published_at,
+    readTime,
+    read_time: readTime,
+    tags,
+    featured,
+    metaTitle,
+    meta_title: metaTitle,
+    metaDescription,
+    meta_description: metaDescription,
+    keywords,
+    canonicalUrl: base.canonicalUrl ?? existing?.canonicalUrl ?? '',
+    relatedPropertyIds: Array.isArray(base.relatedPropertyIds)
+      ? base.relatedPropertyIds
+      : existing?.relatedPropertyIds || [],
+    created_at: base.created_at || existing?.created_at || nowIso,
+    updated_at: nowIso,
+  };
+}
+
+// Shared cache (see globalForDb above) with a modified-time check, so Admin Panel edits and
+// SSR/API routes stay in sync without re-reading and re-normalising the file on every call.
 function initializeDb(): DatabaseSchema {
   const cached = globalForDb.__realicDb;
   if (cached && cached.mtimeMs === fileMtime()) {
@@ -48,9 +256,12 @@ function initializeDb(): DatabaseSchema {
 
   if (fs.existsSync(DB_FILE)) {
     try {
-      const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) as DatabaseSchema;
-      globalForDb.__realicDb = { data, mtimeMs: fileMtime() };
-      return data;
+      const parsed = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) as DatabaseSchema;
+      if (parsed && Array.isArray(parsed.blogs)) {
+        parsed.blogs = parsed.blogs.map((b) => normalizeBlog(b));
+      }
+      globalForDb.__realicDb = { data: parsed, mtimeMs: fileMtime() };
+      return parsed;
     } catch (e) {
       console.error('Error reading db.json, reinitializing from defaults', e);
     }
@@ -58,7 +269,7 @@ function initializeDb(): DatabaseSchema {
 
   const initialData: DatabaseSchema = {
     properties: PROPERTIES,
-    blogs: INITIAL_BLOGS,
+    blogs: INITIAL_BLOGS.map((b) => normalizeBlog(b)),
     inquiries: [
       {
         id: 'inq-1',
@@ -157,57 +368,84 @@ export function deleteProperty(id: string): boolean {
 }
 
 // Blogs Methods
-export function getAllBlogs(): BlogArticle[] {
+export function getAllBlogs(includeDrafts: boolean = false): BlogArticle[] {
   const db = initializeDb();
-  return db.blogs;
+  if (includeDrafts) {
+    return db.blogs;
+  }
+  return db.blogs.filter((b) => b.status !== 'draft');
 }
 
-export function getBlogBySlug(slug: string): BlogArticle | undefined {
+export function getBlogBySlug(slugOrId: string, includeDrafts: boolean = true): BlogArticle | undefined {
   const db = initializeDb();
-  return db.blogs.find((b) => b.slug === slug || b.id === slug);
+  const decoded = decodeURIComponent(String(slugOrId)).trim().toLowerCase();
+  const found = db.blogs.find(
+    (b) =>
+      String(b.slug).toLowerCase() === decoded ||
+      String(b.id).toLowerCase() === decoded
+  );
+  if (!found) return undefined;
+  if (!includeDrafts && found.status === 'draft') return undefined;
+  return found;
 }
 
-export function createBlog(newBlog: Omit<BlogArticle, 'id' | 'slug' | 'publishedAt'>): BlogArticle {
+export function createBlog(newBlog: any): BlogArticle {
   const db = initializeDb();
-  const slug = newBlog.title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-  const id = `blog-${Date.now()}`;
 
-  const article: BlogArticle = {
+  let desiredSlug = String(
+    newBlog.slug ||
+      newBlog.title
+        ?.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '') ||
+      `post-${Date.now()}`
+  ).trim();
+
+  // Only append suffix if slug already exists
+  if (db.blogs.some((b) => b.slug.toLowerCase() === desiredSlug.toLowerCase())) {
+    desiredSlug = `${desiredSlug}-${Math.floor(100 + Math.random() * 900)}`;
+  }
+
+  const id = newBlog.id ? String(newBlog.id) : desiredSlug;
+
+  const article = normalizeBlog({
     ...newBlog,
     id,
-    slug: `${slug}-${Math.floor(100 + Math.random() * 900)}`,
-    publishedAt: new Date().toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    }),
-  };
+    slug: desiredSlug,
+  });
 
   db.blogs.unshift(article);
   saveDb(db);
   return article;
 }
 
-export function updateBlog(id: string, updates: Partial<BlogArticle>): BlogArticle | null {
+export function updateBlog(idOrSlug: string, updates: any): BlogArticle | null {
   const db = initializeDb();
-  const idx = db.blogs.findIndex((b) => b.id === id || b.slug === id);
+  const decoded = decodeURIComponent(String(idOrSlug)).trim().toLowerCase();
+  const idx = db.blogs.findIndex(
+    (b) =>
+      String(b.id).toLowerCase() === decoded ||
+      String(b.slug).toLowerCase() === decoded
+  );
   if (idx === -1) return null;
 
-  db.blogs[idx] = {
-    ...db.blogs[idx],
-    ...updates,
-  };
+  const existing = db.blogs[idx];
+  const updated = normalizeBlog(updates, existing);
+
+  db.blogs[idx] = updated;
   saveDb(db);
-  return db.blogs[idx];
+  return updated;
 }
 
-export function deleteBlog(id: string): boolean {
+export function deleteBlog(idOrSlug: string): boolean {
   const db = initializeDb();
+  const decoded = decodeURIComponent(String(idOrSlug)).trim().toLowerCase();
   const initialLen = db.blogs.length;
-  db.blogs = db.blogs.filter((b) => b.id !== id && b.slug !== id);
+  db.blogs = db.blogs.filter(
+    (b) =>
+      String(b.id).toLowerCase() !== decoded &&
+      String(b.slug).toLowerCase() !== decoded
+  );
   if (db.blogs.length !== initialLen) {
     saveDb(db);
     return true;

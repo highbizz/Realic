@@ -2,24 +2,38 @@ export interface BlogArticle {
   id: string;
   slug: string;
   title: string;
+  title_hindi?: string | null;
   excerpt: string;
   content: string;
-  category: 'Market Trends' | 'Legal & RERA' | 'Patna Corridors' | 'Luxury Living' | 'NRI Advisory';
+  category: string;
+  category_hindi?: string | null;
   coverImage: string;
+  featured_image?: string | null;
   author: {
     name: string;
     role: string;
     avatar: string;
   };
+  author_name?: string;
+  author_role?: string;
+  author_avatar?: string;
+  status?: 'draft' | 'published';
   publishedAt: string;
+  published_at?: string | null;
   readTime: string;
+  read_time?: string | null;
   tags: string[];
   featured: boolean;
   metaTitle?: string;
+  meta_title?: string | null;
   metaDescription?: string;
-  keywords?: string[];
+  meta_description?: string | null;
+  keywords?: string[] | string | null;
   canonicalUrl?: string;
+  canonical_url?: string | null;
   relatedPropertyIds?: string[];
+  created_at?: string;
+  updated_at?: string;
 }
 
 export const INITIAL_BLOGS: BlogArticle[] = [

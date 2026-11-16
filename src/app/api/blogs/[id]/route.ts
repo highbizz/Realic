@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '@/lib/adminAuth';
+import { revalidatePath } from 'next/cache';
 import { getBlogBySlug, updateBlog, deleteBlog } from '@/data/store';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -9,13 +12,20 @@ interface Props {
 export async function GET(request: Request, { params }: Props) {
   try {
     const { id } = await params;
-    const blog = getBlogBySlug(id);
+    const blog = getBlogBySlug(id, true);
 
     if (!blog) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: blog });
+    return NextResponse.json(
+      { success: true, data: blog, post: blog },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to fetch blog' },
@@ -36,7 +46,14 @@ export async function PUT(request: Request, { params }: Props) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: updated });
+    try {
+      revalidatePath('/blogs');
+      revalidatePath(`/blogs/${updated.slug}`);
+      revalidatePath(`/blogs/${id}`);
+      revalidatePath('/admin/blogs');
+    } catch (_) {}
+
+    return NextResponse.json({ success: true, data: updated, post: updated });
   } catch (error: any) {
     return NextResponse.json(
       { success: false, error: error.message || 'Failed to update blog' },
@@ -55,6 +72,12 @@ export async function DELETE(request: Request, { params }: Props) {
     if (!deleted) {
       return NextResponse.json({ success: false, error: 'Blog not found' }, { status: 404 });
     }
+
+    try {
+      revalidatePath('/blogs');
+      revalidatePath(`/blogs/${id}`);
+      revalidatePath('/admin/blogs');
+    } catch (_) {}
 
     return NextResponse.json({ success: true, message: 'Blog deleted successfully' });
   } catch (error: any) {
