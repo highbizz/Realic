@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
 import { revalidatePath } from 'next/cache';
 import { getBlogBySlug, updateBlog, deleteBlog } from '@/data/store';
 
@@ -34,6 +35,8 @@ export async function GET(request: Request, { params }: Props) {
 }
 
 export async function PUT(request: Request, { params }: Props) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { id } = await params;
     const body = await request.json();
@@ -60,6 +63,8 @@ export async function PUT(request: Request, { params }: Props) {
 }
 
 export async function DELETE(request: Request, { params }: Props) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { id } = await params;
     const deleted = deleteBlog(id);

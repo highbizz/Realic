@@ -3,11 +3,11 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { PROPERTIES, Property } from '@/data/properties';
+import type { Property } from '@/data/properties';
 import PropertyMap from '@/components/PropertyMap';
 import { toast } from 'sonner';
 
-export default function PropertiesClient() {
+export default function PropertiesClient({ properties }: { properties: Property[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialCity = searchParams?.get('city') || 'All';
@@ -17,7 +17,7 @@ export default function PropertiesClient() {
   const [selectedType, setSelectedType] = useState(initialType);
   const [selectedBhk, setSelectedBhk] = useState<number | 'All'>('All');
   const [priceFilterActive, setPriceFilterActive] = useState<boolean>(false);
-  const [activePropertyId, setActivePropertyId] = useState<string | null>('winsome-icon');
+  const [activePropertyId, setActivePropertyId] = useState<string | null>(properties[0]?.id ?? null);
   const [shortlisted, setShortlisted] = useState<Record<string, boolean>>({});
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
@@ -37,7 +37,7 @@ export default function PropertiesClient() {
   };
 
   const filteredProperties = useMemo(() => {
-    return PROPERTIES.filter((p) => {
+    return properties.filter((p) => {
       if (selectedCity !== 'All' && p.city.toLowerCase() !== selectedCity.toLowerCase()) {
         return false;
       }
@@ -52,12 +52,12 @@ export default function PropertiesClient() {
       }
       return true;
     });
-  }, [selectedCity, selectedType, selectedBhk, priceFilterActive]);
+  }, [properties, selectedCity, selectedType, selectedBhk, priceFilterActive]);
 
   const activeProperty = useMemo(() => {
     if (!activePropertyId) return filteredProperties[0] || null;
-    return PROPERTIES.find((p) => p.id === activePropertyId) || null;
-  }, [activePropertyId, filteredProperties]);
+    return properties.find((p) => p.id === activePropertyId) || null;
+  }, [properties, activePropertyId, filteredProperties]);
 
   const handleMarkerSelect = (prop: Property) => {
     setActivePropertyId(prop.id);

@@ -10,7 +10,7 @@ export default function InteriorClient() {
   const [scope, setScope] = useState('Full Turnkey Interiors');
   const [styleTheme, setStyleTheme] = useState('Contemporary Italian');
   const [materialTier, setMaterialTier] = useState('Imperial German & Quartz');
-  const [areaSqft, setAreaSqft] = useState(1850);
+  const [areaSqft, setAreaSqft] = useState<number | ''>(1850);
   const [estimatedBudget, setEstimatedBudget] = useState<{ min: number; max: number } | null>(null);
 
   // Consultation Form State
@@ -33,6 +33,11 @@ export default function InteriorClient() {
   // Calculate dynamic budget
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
+    const area = Number(areaSqft);
+    if (!area || area < 300 || area > 15000) {
+      toast.error('Please enter a super built-up area between 300 and 15,000 sq ft.');
+      return;
+    }
     let baseRate = 1200; // per sqft base for 2bhk
     if (propertyType.includes('3 BHK')) baseRate = 1450;
     if (propertyType.includes('4 BHK')) baseRate = 1750;
@@ -50,7 +55,7 @@ export default function InteriorClient() {
     if (materialTier.includes('Imperial')) tierMult = 1.35;
     if (materialTier.includes('Sovereign')) tierMult = 1.75;
 
-    const baseCost = areaSqft * baseRate * scopeMult * tierMult;
+    const baseCost = area * baseRate * scopeMult * tierMult;
     const minVal = Math.round((baseCost * 0.92) / 100000) * 100000;
     const maxVal = Math.round((baseCost * 1.1) / 100000) * 100000;
 
@@ -351,10 +356,12 @@ export default function InteriorClient() {
                   <input
                     type="number"
                     value={areaSqft}
-                    onChange={(e) => setAreaSqft(Number(e.target.value))}
-                    min={800}
+                    onChange={(e) => setAreaSqft(e.target.value === '' ? '' : Number(e.target.value))}
+                    min={300}
                     max={15000}
-                    step={50}
+                    step="any"
+                    inputMode="numeric"
+                    placeholder="e.g. 1850"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                     required
                   />

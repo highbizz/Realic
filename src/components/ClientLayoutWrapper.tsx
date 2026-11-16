@@ -22,7 +22,7 @@ export default function ClientLayoutWrapper({
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className={isProperties ? 'h-screen pt-16 overflow-hidden flex flex-col' : 'flex-grow pt-16'}>
+      <div className={isProperties ? 'h-screen pt-[72px] sm:pt-20 overflow-hidden flex flex-col' : 'flex-grow pt-[72px] sm:pt-20'}>
         {children}
       </div>
       {!isProperties && <Footer />}

@@ -24,6 +24,22 @@ interface DatabaseSchema {
 
 const DB_FILE = path.join(process.cwd(), 'src', 'data', 'db.json');
 
+// Shared cache. Next.js bundles API routes and pages separately, so a plain module-level
+// variable would give each bundle its own copy and they would never see each other's
+// writes. Keeping it on globalThis shares one copy, and the file's modified time is checked
+// on every read so changes made by anything else (another process, manual edits) are picked up.
+const globalForDb = globalThis as unknown as {
+  __realicDb?: { data: DatabaseSchema; mtimeMs: number };
+};
+
+function fileMtime(): number {
+  try {
+    return fs.statSync(DB_FILE).mtimeMs;
+  } catch {
+    return 0;
+  }
+}
+
 const DEFAULT_AUTHOR_AVATAR =
   'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80';
 const DEFAULT_COVER_IMAGE =
@@ -230,15 +246,21 @@ export function normalizeBlog(raw: any, existing?: BlogArticle): BlogArticle {
   };
 }
 
-// Always read fresh from disk so Admin Panel edits and SSR/API routes stay 100% in sync
+// Shared cache (see globalForDb above) with a modified-time check, so Admin Panel edits and
+// SSR/API routes stay in sync without re-reading and re-normalising the file on every call.
 function initializeDb(): DatabaseSchema {
+  const cached = globalForDb.__realicDb;
+  if (cached && cached.mtimeMs === fileMtime()) {
+    return cached.data;
+  }
+
   if (fs.existsSync(DB_FILE)) {
     try {
-      const data = fs.readFileSync(DB_FILE, 'utf-8');
-      const parsed = JSON.parse(data) as DatabaseSchema;
+      const parsed = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8')) as DatabaseSchema;
       if (parsed && Array.isArray(parsed.blogs)) {
         parsed.blogs = parsed.blogs.map((b) => normalizeBlog(b));
       }
+      globalForDb.__realicDb = { data: parsed, mtimeMs: fileMtime() };
       return parsed;
     } catch (e) {
       console.error('Error reading db.json, reinitializing from defaults', e);
@@ -276,15 +298,18 @@ function initializeDb(): DatabaseSchema {
   };
 
   saveDb(initialData);
-  return initialData;
+  return globalForDb.__realicDb!.data;
 }
 
 function saveDb(data: DatabaseSchema) {
   try {
     fs.mkdirSync(path.dirname(DB_FILE), { recursive: true });
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
+    globalForDb.__realicDb = { data, mtimeMs: fileMtime() };
   } catch (e) {
     console.error('Error saving db.json', e);
+    // Keep serving the in-memory copy even if the disk is read-only.
+    globalForDb.__realicDb = { data, mtimeMs: fileMtime() };
   }
 }
 

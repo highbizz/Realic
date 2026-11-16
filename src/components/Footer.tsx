@@ -17,11 +17,17 @@ export const Footer: React.FC = () => {
           <div className="space-y-4">
             <Link href="/" className="inline-block">
               <img
-                src="/images/header-logo.png"
+                src="/images/realic-logo-opt.webp"
                 alt="Realic Property Consultant Logo"
-                className="h-11 sm:h-12 w-auto object-contain brightness-0 invert"
+                width={152}
+                height={56}
+                className="h-14 sm:h-16 w-auto object-contain"
               />
             </Link>
+
+            <p className="text-xs font-semibold tracking-[0.12em] whitespace-nowrap uppercase text-amber-400">
+              Real Living, Better Living
+            </p>
 
             <p className="text-xs text-neutral-400 leading-relaxed max-w-sm">
               Realic Property Consultant is an institutional advisory partner specializing in curated luxury residences, turnkey construction, bespoke interiors, and builder JV mandates.

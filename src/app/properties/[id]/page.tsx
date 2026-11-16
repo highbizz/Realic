@@ -1,22 +1,18 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PROPERTIES } from '@/data/properties';
+import { connection } from 'next/server';
+import { getAllProperties, getPropertyByIdOrSlug } from '@/data/store';
 import PropertyDetailClient from './PropertyDetailClient';
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export async function generateStaticParams() {
-  return PROPERTIES.map((property) => ({
-    id: property.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await connection();
   const { id } = await params;
-  const property = PROPERTIES.find((p) => p.slug === id || p.id === id);
+  const property = getPropertyByIdOrSlug(id);
 
   if (!property) {
     return {
@@ -50,8 +46,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PropertyPage({ params }: Props) {
+  await connection();
   const { id } = await params;
-  const property = PROPERTIES.find((p) => p.slug === id || p.id === id);
+  const property = getPropertyByIdOrSlug(id);
 
   if (!property) {
     notFound();
@@ -95,7 +92,7 @@ export default async function PropertyPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdProperty) }}
       />
-      <PropertyDetailClient property={property} />
+      <PropertyDetailClient property={property} allProperties={getAllProperties()} />
     </>
   );
 }

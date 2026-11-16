@@ -101,7 +101,7 @@ void main() {
   }, []);
 
   return (
-    <div className="relative min-h-[calc(100vh-64px)] w-full overflow-hidden flex items-center justify-center">
+    <div className="relative min-h-[calc(100vh-72px)] sm:min-h-[calc(100vh-80px)] w-full overflow-hidden flex items-center justify-center">
       {/* WebGL Canvas Background */}
       <canvas
         ref={canvasRef}
