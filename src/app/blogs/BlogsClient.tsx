@@ -1,8 +1,32 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { BlogArticle } from '@/data/blogs';
+
+const DEFAULT_CATEGORIES = [
+  'All',
+  'Market Trends',
+  'Legal & RERA',
+  'Patna Corridors',
+  'Luxury Living',
+  'NRI Advisory',
+];
+
+function formatDisplayDate(dateStr?: string | null) {
+  if (!dateStr) return 'Recent';
+  if (/^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
+    }
+  }
+  return dateStr;
+}
 
 export default function BlogsClient() {
   const [blogs, setBlogs] = useState<BlogArticle[]>([]);
@@ -13,9 +37,9 @@ export default function BlogsClient() {
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const res = await fetch('/api/blogs');
+        const res = await fetch('/api/blogs', { cache: 'no-store' });
         const data = await res.json();
-        if (data.success) {
+        if (data.success && Array.isArray(data.data)) {
           setBlogs(data.data);
         }
       } catch (err) {
@@ -27,21 +51,22 @@ export default function BlogsClient() {
     fetchBlogs();
   }, []);
 
-  const categories = [
-    'All',
-    'Market Trends',
-    'Legal & RERA',
-    'Patna Corridors',
-    'Luxury Living',
-    'NRI Advisory',
-  ];
+  const categories = useMemo(() => {
+    const dynamicCats = blogs
+      .map((b) => b.category)
+      .filter((c): c is string => Boolean(c && c.trim()));
+    return Array.from(new Set([...DEFAULT_CATEGORIES, ...dynamicCats]));
+  }, [blogs]);
 
   const filteredBlogs = blogs.filter((b) => {
     const matchesCategory = selectedCategory === 'All' || b.category === selectedCategory;
+    const tagList = Array.isArray(b.tags) ? b.tags : [];
+    const q = searchQuery.toLowerCase();
     const matchesSearch =
-      b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      b.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      b.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase()));
+      (b.title || '').toLowerCase().includes(q) ||
+      (b.title_hindi || '').toLowerCase().includes(q) ||
+      (b.excerpt || '').toLowerCase().includes(q) ||
+      tagList.some((t) => t.toLowerCase().includes(q));
     return matchesCategory && matchesSearch;
   });
 
@@ -120,7 +145,7 @@ export default function BlogsClient() {
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                     <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-auto min-h-[380px] overflow-hidden bg-neutral-100">
                       <img
-                        src={featuredBlog.coverImage}
+                        src={featuredBlog.coverImage || featuredBlog.featured_image || '/images/projects/project_cover_1.jpg'}
                         alt={featuredBlog.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       />
@@ -136,15 +161,20 @@ export default function BlogsClient() {
                         <div className="flex items-center gap-2 text-xs text-neutral-500 mb-3 font-medium">
                           <span className="text-neutral-900 font-bold uppercase tracking-wider">{featuredBlog.category}</span>
                           <span>•</span>
-                          <span>{featuredBlog.readTime}</span>
+                          <span>{featuredBlog.readTime || featuredBlog.read_time || '5 min read'}</span>
                           <span>•</span>
-                          <span>{featuredBlog.publishedAt}</span>
+                          <span>{formatDisplayDate(featuredBlog.publishedAt || featuredBlog.published_at)}</span>
                         </div>
 
                         <Link href={`/blogs/${featuredBlog.slug}`}>
                           <h2 className="text-2xl sm:text-3xl font-bold font-montserrat text-neutral-950 group-hover:text-neutral-600 transition-colors leading-snug">
                             {featuredBlog.title}
                           </h2>
+                          {featuredBlog.title_hindi && (
+                            <p className="mt-1.5 text-sm font-medium text-neutral-500">
+                              {featuredBlog.title_hindi}
+                            </p>
+                          )}
                         </Link>
 
                         <p className="mt-4 text-sm text-neutral-600 leading-relaxed line-clamp-3 font-normal">
@@ -152,7 +182,7 @@ export default function BlogsClient() {
                         </p>
 
                         <div className="flex flex-wrap gap-2 mt-6">
-                          {featuredBlog.tags.slice(0, 3).map((tag) => (
+                          {(Array.isArray(featuredBlog.tags) ? featuredBlog.tags : []).slice(0, 3).map((tag) => (
                             <span
                               key={tag}
                               className="px-2.5 py-1 rounded-lg bg-neutral-100 border border-neutral-200 text-[11px] text-neutral-700 font-medium"
@@ -166,13 +196,17 @@ export default function BlogsClient() {
                       <div className="pt-6 mt-6 border-t border-neutral-100 flex items-center justify-between">
                         <div className="flex items-center gap-3">
                           <img
-                            src={featuredBlog.author.avatar}
-                            alt={featuredBlog.author.name}
+                            src={featuredBlog.author?.avatar || featuredBlog.author_avatar || '/images/projects/project_cover_1.jpg'}
+                            alt={featuredBlog.author?.name || featuredBlog.author_name || 'Realic Editorial'}
                             className="w-10 h-10 rounded-full object-cover border border-neutral-200"
                           />
                           <div>
-                            <p className="text-xs font-bold text-neutral-900">{featuredBlog.author.name}</p>
-                            <p className="text-[10px] text-neutral-500">{featuredBlog.author.role}</p>
+                            <p className="text-xs font-bold text-neutral-900">
+                              {featuredBlog.author?.name || featuredBlog.author_name || 'Realic Editorial Team'}
+                            </p>
+                            <p className="text-[10px] text-neutral-500">
+                              {featuredBlog.author?.role || featuredBlog.author_role || 'Property Advisory & Research'}
+                            </p>
                           </div>
                         </div>
 
@@ -226,7 +260,7 @@ export default function BlogsClient() {
                       {/* Image Thumbnail */}
                       <Link href={`/blogs/${article.slug}`} className="block relative h-52 overflow-hidden bg-neutral-100">
                         <img
-                          src={article.coverImage}
+                          src={article.coverImage || article.featured_image || '/images/projects/project_cover_1.jpg'}
                           alt={article.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
@@ -240,15 +274,20 @@ export default function BlogsClient() {
                       {/* Content */}
                       <div className="p-6">
                         <div className="flex items-center gap-2 text-[11px] text-neutral-500 mb-2.5 font-medium">
-                          <span>{article.publishedAt}</span>
+                          <span>{formatDisplayDate(article.publishedAt || article.published_at)}</span>
                           <span>•</span>
-                          <span>{article.readTime}</span>
+                          <span>{article.readTime || article.read_time || '5 min read'}</span>
                         </div>
 
                         <Link href={`/blogs/${article.slug}`}>
                           <h4 className="text-lg font-bold font-montserrat text-neutral-950 group-hover:text-neutral-600 transition-colors leading-snug line-clamp-2">
                             {article.title}
                           </h4>
+                          {article.title_hindi && (
+                            <p className="mt-1 text-xs font-medium text-neutral-500 line-clamp-1">
+                              {article.title_hindi}
+                            </p>
+                          )}
                         </Link>
 
                         <p className="mt-2.5 text-xs text-neutral-600 leading-relaxed line-clamp-3">
@@ -261,11 +300,13 @@ export default function BlogsClient() {
                     <div className="px-6 py-4 border-t border-neutral-100 flex items-center justify-between bg-neutral-50">
                       <div className="flex items-center gap-2.5">
                         <img
-                          src={article.author.avatar}
-                          alt={article.author.name}
+                          src={article.author?.avatar || article.author_avatar || '/images/projects/project_cover_1.jpg'}
+                          alt={article.author?.name || article.author_name || 'Realic Editorial'}
                           className="w-7 h-7 rounded-full object-cover border border-neutral-200"
                         />
-                        <span className="text-xs text-neutral-700 font-semibold">{article.author.name}</span>
+                        <span className="text-xs text-neutral-700 font-semibold">
+                          {article.author?.name || article.author_name || 'Realic Editorial Team'}
+                        </span>
                       </div>
 
                       <Link
