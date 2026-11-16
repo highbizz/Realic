@@ -2,20 +2,15 @@ import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { connection } from 'next/server';
 import { getAllBlogs, getBlogBySlug, getAllProperties } from '@/data/store';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const blogs = getAllBlogs();
-  return blogs.map((b) => ({
-    slug: b.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  await connection();
   const { slug } = await params;
   const blog = getBlogBySlug(slug);
 
@@ -54,6 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function BlogDetailPage({ params }: Props) {
+  await connection();
   const { slug } = await params;
   const blog = getBlogBySlug(slug);
 

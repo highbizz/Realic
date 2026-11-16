@@ -1,4 +1,6 @@
 import React from 'react';
+import { connection } from 'next/server';
+import { getAllProperties } from '@/data/store';
 import { HeroSection } from '@/components/HeroSection';
 import { TrustPillarsSection } from '@/components/TrustPillarsSection';
 import { CuratedEstatesSection } from '@/components/CuratedEstatesSection';
@@ -6,7 +8,11 @@ import { MortgageCalculatorSection } from '@/components/MortgageCalculatorSectio
 import { NeighborhoodInsightsSection } from '@/components/NeighborhoodInsightsSection';
 import { HomeReviewsSection } from '@/components/HomeReviewsSection';
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Render per request so properties edited in the admin show up immediately.
+  await connection();
+  const properties = getAllProperties();
+
   return (
     <div className="flex flex-col">
       {/* 1. Hero Section (Asymmetrical Split with Copy & High-Fidelity Imagery) */}
@@ -16,7 +22,7 @@ export default function HomePage() {
       <TrustPillarsSection />
 
       {/* 3. Curated Estates Section */}
-      <CuratedEstatesSection />
+      <CuratedEstatesSection properties={properties} />
 
       {/* 4. Plan Your Future Home (Loan Parameters & Estimated Monthly Payment) */}
       <MortgageCalculatorSection />

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getAllBlogs, createBlog } from '@/data/store';
 
 export async function GET(request: Request) {
@@ -27,7 +28,7 @@ export async function GET(request: Request) {
       { success: true, count: blogs.length, data: blogs },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=120',
+          'Cache-Control': 'no-store',
         },
       }
     );
@@ -40,6 +41,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = await request.json();
 

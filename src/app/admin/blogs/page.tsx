@@ -150,30 +150,38 @@ export default function AdminBlogsPage() {
     return new Date().toISOString().split('T')[0];
   }
 
-  // Handle direct image file upload
-  function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+  // Handle direct image file upload (stored on the server; only a short URL is saved with the blog)
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const input = e.target;
+    const file = input.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
       toast.error('Please select a valid image file');
+      input.value = '';
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
       toast.error('Image size should be under 5MB');
+      input.value = '';
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      const base64Url = loadEvent.target?.result as string;
-      if (base64Url) {
-        setFormData((prev) => ({ ...prev, coverImage: base64Url }));
-        toast.success('Cover image uploaded successfully!');
-      }
-    };
-    reader.readAsDataURL(file);
+    const body = new FormData();
+    body.append('file', file);
+    const loadingId = toast.loading('Uploading image...');
+    try {
+      const res = await fetch('/api/upload', { method: 'POST', body });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Upload failed');
+      setFormData((prev) => ({ ...prev, coverImage: data.url }));
+      toast.success('Cover image uploaded successfully!', { id: loadingId });
+    } catch (err: any) {
+      toast.error(err.message || 'Image upload failed', { id: loadingId });
+    } finally {
+      input.value = ''; // allow re-selecting the same file
+    }
   }
 
   // Auto-slug generator on title blur

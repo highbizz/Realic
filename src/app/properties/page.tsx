@@ -1,5 +1,7 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { connection } from 'next/server';
+import { getAllProperties } from '@/data/store';
 import PropertiesClient from './PropertiesClient';
 
 export const metadata: Metadata = {
@@ -14,7 +16,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+  await connection();
+  const properties = getAllProperties();
+
   return (
     <Suspense
       fallback={
@@ -28,7 +33,7 @@ export default function PropertiesPage() {
         </div>
       }
     >
-      <PropertiesClient />
+      <PropertiesClient properties={properties} />
     </Suspense>
   );
 }

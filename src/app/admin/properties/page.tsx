@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { Property } from '@/data/properties';
 import { toast } from 'sonner';
 
+// Map centre used for new listings (never fall back to another city's coordinates)
+const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  Patna: { lat: 25.612, lng: 85.074 },
+};
+
 export default function AdminPropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
@@ -152,10 +157,41 @@ export default function AdminPropertiesPage() {
   const handleSaveProperty = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // When editing, start from the stored property so fields that are not in
+      // this form (amenities, floor plans, extra photos, tagline, agent photo...) are preserved.
+      const existing = editingPropertyId
+        ? properties.find((p) => p.id === editingPropertyId || p.slug === editingPropertyId)
+        : undefined;
+
+      const cityChanged = !existing || existing.city !== formData.city;
+      const coordinates =
+        !cityChanged && existing
+          ? existing.coordinates
+          : CITY_COORDS[formData.city] ?? CITY_COORDS.Patna;
+
+      // Keep the stored overview stats; only refresh the area rows if the numbers were edited.
+      let overviewStats = existing?.overviewStats ?? [
+        { label: 'Super Area', value: `${formData.sqft} sq.ft`, icon: 'straighten' },
+        { label: 'Carpet Area', value: `${formData.carpetAreaSqft} sq.ft`, icon: 'square_foot' },
+        { label: 'Bedrooms', value: `${formData.bedrooms} BHK`, icon: 'bed' },
+        { label: 'Floor Level', value: formData.floor, icon: 'apartment' },
+      ];
+      if (existing) {
+        overviewStats = overviewStats.map((stat) => {
+          if (Number(formData.sqft) !== existing.sqft && /super|total area/i.test(stat.label)) {
+            return { ...stat, value: `${Number(formData.sqft).toLocaleString('en-IN')} sq.ft` };
+          }
+          if (Number(formData.carpetAreaSqft) !== existing.carpetAreaSqft && /carpet/i.test(stat.label)) {
+            return { ...stat, value: `${Number(formData.carpetAreaSqft).toLocaleString('en-IN')} sq.ft` };
+          }
+          return stat;
+        });
+      }
+
       const payload: any = {
         title: formData.title,
         subtitle: formData.subtitle || `${formData.bedrooms} BHK in ${formData.locality}, ${formData.city}`,
-        tagline: 'Curated by Realic Institutional Advisory',
+        tagline: existing?.tagline ?? 'Curated by Realic Institutional Advisory',
         price: Number(formData.price),
         priceDisplay: formData.priceDisplay,
         priceUsd: formData.priceUsd,
@@ -163,10 +199,7 @@ export default function AdminPropertiesPage() {
         city: formData.city,
         locality: formData.locality,
         address: formData.address,
-        coordinates: {
-          lat: formData.city === 'Patna' ? 25.612 : 12.956,
-          lng: formData.city === 'Patna' ? 85.074 : 77.741,
-        },
+        coordinates,
         bedrooms: Number(formData.bedrooms),
         bathrooms: Number(formData.bathrooms),
         balconies: Number(formData.balconies),
@@ -182,33 +215,32 @@ export default function AdminPropertiesPage() {
         floor: formData.floor,
         maintenancePerMonth: formData.maintenancePerMonth,
         description: formData.description,
-        images: [formData.imageUrl1, formData.imageUrl2].filter(Boolean),
+        // First two photos come from the form; any further stored photos are kept.
+        images: [formData.imageUrl1, formData.imageUrl2, ...(existing?.images.slice(2) ?? [])].filter(Boolean),
         features: formData.features.split(',').map((f) => f.trim()).filter(Boolean),
-        amenities: [
+        amenities: existing?.amenities ?? [
           { name: 'Concierge Security', icon: 'verified_user' },
           { name: 'Fitness Gym', icon: 'fitness_center' },
           { name: 'Clubhouse', icon: 'deck' },
           { name: 'Power Backup', icon: 'bolt' },
         ],
-        overviewStats: [
-          { label: 'Super Area', value: `${formData.sqft} sq.ft`, icon: 'straighten' },
-          { label: 'Carpet Area', value: `${formData.carpetAreaSqft} sq.ft`, icon: 'square_foot' },
-          { label: 'Bedrooms', value: `${formData.bedrooms} BHK`, icon: 'bed' },
-          { label: 'Floor Level', value: formData.floor, icon: 'apartment' },
-        ],
-        neighborhoodInsights: [
+        overviewStats,
+        neighborhoodInsights: existing?.neighborhoodInsights ?? [
           { title: 'Airport Transit', distance: '8.5 km (20 mins)', type: 'Airport' },
           { title: 'Metro Station', distance: '1.2 km (4 mins)', type: 'Metro' },
           { title: 'Specialty Hospital', distance: '2.5 km (6 mins)', type: 'Hospital' },
         ],
         agent: {
+          rating: existing?.agent.rating ?? 4.95,
+          image:
+            existing?.agent.image ??
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+          ...existing?.agent,
           name: formData.agentName,
           role: formData.agentRole,
           phone: formData.agentPhone,
           email: formData.agentEmail,
-          rating: 4.95,
           verified: true,
-          image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
         },
         verified: formData.verified,
         featured: formData.featured,

@@ -72,10 +72,10 @@ export const Navbar: React.FC = () => {
       <nav
         id="main-nav"
         className={`fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-border-subtle transition-all duration-300 ${
-          isScrolled ? 'shadow-md py-0' : 'shadow-xs py-0.5'
+          isScrolled ? 'shadow-md' : 'shadow-xs'
         }`}
       >
-        <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 h-16 sm:h-18 max-w-7xl mx-auto">
+        <div className="flex justify-between items-center px-4 sm:px-6 md:px-8 h-[72px] sm:h-20 max-w-7xl mx-auto">
           {/* Brand Logo */}
           <Link
             href="/"
@@ -83,8 +83,10 @@ export const Navbar: React.FC = () => {
           >
             <img
               alt="Realic Property Consultant - Real Living Better Living"
-              className="h-10 sm:h-11 md:h-12 w-auto object-contain"
-              src="/images/header-logo.png"
+              width={152}
+              height={56}
+              className="h-12 sm:h-14 w-auto object-contain"
+              src="/images/realic-logo-opt.webp"
             />
           </Link>
 

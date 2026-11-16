@@ -16,14 +16,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [loginError, setLoginError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Check stored auth session
+  // Check server-side session (httpOnly cookie)
   useEffect(() => {
-    const session = localStorage.getItem('realic_admin_session');
-    if (session === 'active') {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-    }
+    let cancelled = false;
+    fetch('/api/admin/session', { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((d) => {
+        if (!cancelled) setIsAuthenticated(Boolean(d.authenticated));
+      })
+      .catch(() => {
+        if (!cancelled) setIsAuthenticated(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const navItems = [
@@ -33,34 +39,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { label: 'Lead Inquiries', href: '/admin/inquiries', icon: 'contact_phone' },
   ];
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoginError('');
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const cleanEmail = email.trim().toLowerCase();
-      const cleanPass = password.trim();
-
-      const validEmails = ['admin@realicconsultant.com', 'admin', 'pavid@realic.com'];
-      const validPasswords = ['Realic@2026', 'admin123', 'admin@2026'];
-
-      if (validEmails.includes(cleanEmail) && validPasswords.includes(cleanPass)) {
-        localStorage.setItem('realic_admin_session', 'active');
-        localStorage.setItem('realic_admin_user', cleanEmail);
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPassword('');
         setIsAuthenticated(true);
         toast.success('Welcome back, Executive Administrator');
       } else {
-        setLoginError('Invalid credentials. Please verify your email and security key.');
+        setLoginError(data.error || 'Invalid credentials. Please verify your email and security key.');
         toast.error('Authentication failed');
       }
+    } catch {
+      setLoginError('Network error. Please try again.');
+    } finally {
       setIsSubmitting(false);
-    }, 300);
+    }
   }
 
-  function handleLogout() {
-    localStorage.removeItem('realic_admin_session');
-    localStorage.removeItem('realic_admin_user');
+  async function handleLogout() {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {
+      /* cookie is cleared server-side; ignore network errors */
+    }
     setIsAuthenticated(false);
     toast.info('Signed out of executive console');
   }

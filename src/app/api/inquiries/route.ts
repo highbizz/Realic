@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getAllInquiries, createInquiry, updateInquiryStatus } from '@/data/store';
 
 export async function GET() {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const inquiries = getAllInquiries();
     return NextResponse.json(
@@ -40,6 +43,8 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const body = await request.json();
     const { id, status } = body;

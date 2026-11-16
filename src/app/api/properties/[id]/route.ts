@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/adminAuth';
 import { getPropertyByIdOrSlug, updateProperty, deleteProperty } from '@/data/store';
 
 interface Props {
@@ -24,6 +25,8 @@ export async function GET(request: Request, { params }: Props) {
 }
 
 export async function PUT(request: Request, { params }: Props) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { id } = await params;
     const body = await request.json();
@@ -43,6 +46,8 @@ export async function PUT(request: Request, { params }: Props) {
 }
 
 export async function DELETE(request: Request, { params }: Props) {
+  const denied = await requireAdmin();
+  if (denied) return denied;
   try {
     const { id } = await params;
     const deleted = deleteProperty(id);

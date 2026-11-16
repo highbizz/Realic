@@ -8,10 +8,12 @@ export default function SellClient() {
   const [city, setCity] = useState('Patna');
   const [locality, setLocality] = useState('Bailey Road');
   const [propertyType, setPropertyType] = useState('Penthouse');
-  const [areaSqft, setAreaSqft] = useState(2400);
+  // '' while the field is being edited/cleared, so typing never jumps to 0
+  const [areaSqft, setAreaSqft] = useState<number | ''>(2400);
   const [bedrooms, setBedrooms] = useState(3);
-  const [propertyAge, setPropertyAge] = useState('0-3 Years (New)');
+  const [propertyAge, setPropertyAge] = useState('0-3 Years (Brand New / Pristine)');
   const [estimatedValue, setEstimatedValue] = useState<number | null>(null);
+  const [rateUsed, setRateUsed] = useState<number | null>(null);
 
   // Seller Lead Form State
   const [fullName, setFullName] = useState('');
@@ -26,25 +28,50 @@ export default function SellClient() {
 
   const calculateValuation = (e: React.FormEvent) => {
     e.preventDefault();
+    const area = Number(areaSqft);
+    if (!area || area < 100 || area > 50000) {
+      toast.error('Enter the Super Built-up area between 100 and 50,000 sq ft');
+      return;
+    }
     // Benchmark pricing logic based on city & type
     let ratePerSqft = city === 'Patna' ? 8500 : 12500;
     if (propertyType === 'Penthouse') ratePerSqft *= 1.25;
     if (propertyType === 'Villa') ratePerSqft *= 1.35;
     if (propertyAge.includes('New')) ratePerSqft *= 1.1;
 
-    const baseVal = areaSqft * ratePerSqft;
-    setEstimatedValue(Math.round(baseVal));
+    setRateUsed(Math.round(ratePerSqft));
+    setEstimatedValue(Math.round(area * ratePerSqft));
     toast.success('Instant data-backed valuation estimate calculated!');
   };
 
-  const handleLeadSubmit = (e: React.FormEvent) => {
+  const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !phone) {
       toast.error('Please provide your name and phone number');
       return;
     }
-    setFormSubmitted(true);
-    toast.success('Property evaluation dossier requested! An acquisition manager will reach out within 24 hours.');
+    try {
+      const res = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'Instant Offer',
+          name: fullName.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+          propertyTitle: `${propertyType} • ${areaSqft} sq.ft • ${locality}, ${city}`,
+          notes: `Address: ${fullAddress} | Closing: ${targetClosingDays}${
+            estimatedValue ? ` | Estimated value: ₹${(estimatedValue / 10000000).toFixed(2)} Cr` : ''
+          }`,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Request failed');
+      setFormSubmitted(true);
+      toast.success('Property evaluation dossier requested! An acquisition manager will reach out within 24 hours.');
+    } catch {
+      toast.error('Could not submit your request. Please try again or call us directly.');
+    }
   };
 
   const faqs = [
@@ -203,14 +230,19 @@ export default function SellClient() {
                   </label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     value={areaSqft}
-                    onChange={(e) => setAreaSqft(Number(e.target.value))}
-                    min={500}
-                    max={20000}
-                    step={50}
+                    onChange={(e) => setAreaSqft(e.target.value === '' ? '' : Number(e.target.value))}
+                    min={100}
+                    max={50000}
+                    step="any"
+                    placeholder="e.g. 2437"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                     required
                   />
+                  <p className="text-[10px] text-text-medium-emphasis mt-1">
+                    Super built-up = carpet + walls, balcony &amp; share of common areas (as on your agreement).
+                  </p>
                 </div>
 
                 <div>
@@ -268,6 +300,11 @@ export default function SellClient() {
                     <div className="text-3xl sm:text-4xl font-extrabold font-montserrat text-black">
                       ₹{(estimatedValue / 10000000).toFixed(2)} Cr
                     </div>
+                    {rateUsed && (
+                      <span className="text-xs text-neutral-500 block mt-1">
+                        Benchmark rate: ₹{rateUsed.toLocaleString('en-IN')} per sq ft (super built-up)
+                      </span>
+                    )}
                     <span className="text-xs text-neutral-500 block mt-1">
                       Estimated Range: ₹{((estimatedValue * 0.95) / 10000000).toFixed(2)} Cr – ₹
                       {((estimatedValue * 1.08) / 10000000).toFixed(2)} Cr

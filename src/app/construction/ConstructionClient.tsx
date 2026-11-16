@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 
 export default function ConstructionClient() {
   // Construction Estimator State
-  const [builtUpSqft, setBuiltUpSqft] = useState(3200);
+  const [builtUpSqft, setBuiltUpSqft] = useState<number | ''>(3200);
   const [structureType, setStructureType] = useState('Luxury Independent Villa');
   const [specPackage, setSpecPackage] = useState<'Classic' | 'Elite' | 'Imperial'>('Elite');
   const [numFloors, setNumFloors] = useState('G + 2 Floors');
@@ -40,15 +40,20 @@ export default function ConstructionClient() {
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
+    const area = Number(builtUpSqft);
+    if (!area || area < 300 || area > 50000) {
+      toast.error('Please enter a built-up area between 300 and 50,000 sq ft.');
+      return;
+    }
     const config = rates[specPackage];
     let mult = 1.0;
     if (structureType.includes('Stilt + 4')) mult = 1.08;
     if (structureType.includes('Commercial')) mult = 1.12;
 
-    const total = builtUpSqft * config.rate * mult;
+    const total = area * config.rate * mult;
     const civil = Math.round(total * config.civilRatio);
     const finishing = total - civil;
-    const estMonths = Math.max(7, Math.round((builtUpSqft / 1000) * 2.5 + 4));
+    const estMonths = Math.max(7, Math.round((area / 1000) * 2.5 + 4));
 
     setCalculatedQuote({
       civilCost: civil,
@@ -336,10 +341,12 @@ export default function ConstructionClient() {
                   <input
                     type="number"
                     value={builtUpSqft}
-                    onChange={(e) => setBuiltUpSqft(Number(e.target.value))}
-                    min={1000}
+                    onChange={(e) => setBuiltUpSqft(e.target.value === '' ? '' : Number(e.target.value))}
+                    min={300}
                     max={50000}
-                    step={100}
+                    step="any"
+                    inputMode="numeric"
+                    placeholder="e.g. 3200"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                     required
                   />

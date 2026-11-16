@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Property, PROPERTIES } from '@/data/properties';
+import type { Property } from '@/data/properties';
 import { REVIEWS } from '@/data/reviews';
 import { toast } from 'sonner';
 import PropertyMap from '@/components/PropertyMap';
 
 interface Props {
   property: Property;
+  allProperties: Property[];
 }
 
-export default function PropertyDetailClient({ property }: Props) {
+export default function PropertyDetailClient({ property, allProperties }: Props) {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [loanTenureYears, setLoanTenureYears] = useState(20);
   const [downPaymentPercent, setDownPaymentPercent] = useState(20);
@@ -50,20 +51,39 @@ export default function PropertyDetailClient({ property }: Props) {
       (Math.pow(1 + monthlyRate, totalMonths) - 1)
   );
 
-  const handleInquirySubmit = (e: React.FormEvent) => {
+  const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inquiryName.trim() || !inquiryPhone.trim()) {
       toast.error('Please provide your name and contact phone number');
       return;
     }
-    setInquirySubmitted(true);
-    toast.success(
-      `Private viewing request submitted! Senior advisor ${property.agent.name} will contact you shortly.`
-    );
+    try {
+      const res = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'Showing',
+          name: inquiryName.trim(),
+          phone: inquiryPhone.trim(),
+          email: inquiryEmail.trim(),
+          propertyTitle: property.title,
+          date: inquiryDate,
+          notes: `Requested: ${inquiryType}`,
+        }),
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Request failed');
+      setInquirySubmitted(true);
+      toast.success(
+        `Private viewing request submitted! Senior advisor ${property.agent.name} will contact you shortly.`
+      );
+    } catch {
+      toast.error('Could not submit your request. Please try again or call us directly.');
+    }
   };
 
   // Similar properties
-  const similarProperties = PROPERTIES.filter(
+  const similarProperties = allProperties.filter(
     (p) => p.id !== property.id && (p.city === property.city || p.propertyType === property.propertyType)
   ).slice(0, 3);
 

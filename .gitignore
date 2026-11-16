@@ -46,3 +46,6 @@ Thumbs.db
 *.zip
 hostinger_deploy/
 public_html_ready/
+
+# admin-uploaded images
+/uploads

@@ -1,13 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Link from 'next/link';
-import { PROPERTIES, Property } from '@/data/properties';
+import type { Property } from '@/data/properties';
 import { toast } from 'sonner';
 
 export type { Property };
 
-export const CuratedEstatesSection: React.FC = () => {
+export const CuratedEstatesSection: React.FC<{ properties: Property[] }> = ({ properties }) => {
+  // Featured listings first (stable order), then the rest
+  const shown = [...properties.filter((p) => p.featured), ...properties.filter((p) => !p.featured)];
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const scrollByCard = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('[data-card]');
+    const step = card ? card.offsetWidth + 24 : el.clientWidth * 0.8;
+    el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   const toggleFavorite = (id: string, title: string, e: React.MouseEvent) => {
@@ -31,26 +42,51 @@ export const CuratedEstatesSection: React.FC = () => {
             Handpicked, verified homes ready for your arrival.
           </p>
         </div>
-        <Link
-          className="hidden md:flex items-center gap-1 font-label-bold text-secondary hover:text-primary transition-colors"
-          href="/properties"
-        >
-          View All Collection{' '}
-          <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
-            arrow_forward
-          </span>
-        </Link>
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Previous properties"
+            onClick={() => scrollByCard(-1)}
+            className="w-11 h-11 rounded-full border border-border-subtle bg-surface-pure hover:bg-neutral-100 flex items-center justify-center cursor-pointer transition-colors"
+          >
+            <span className="material-symbols-outlined">arrow_back</span>
+          </button>
+          <button
+            type="button"
+            aria-label="Next properties"
+            onClick={() => scrollByCard(1)}
+            className="w-11 h-11 rounded-full border border-border-subtle bg-surface-pure hover:bg-neutral-100 flex items-center justify-center cursor-pointer transition-colors"
+          >
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </button>
+          <Link
+            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-[#ea5c27] hover:bg-[#d64f1d] text-white font-bold shadow-md hover:shadow-lg transition-all active:scale-95"
+            href="/properties"
+          >
+            View All Properties{' '}
+            <span
+              className="material-symbols-outlined transition-transform group-hover:translate-x-1"
+              style={{ fontSize: '20px' }}
+            >
+              arrow_forward
+            </span>
+          </Link>
+        </div>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-        {PROPERTIES.slice(0, 3).map((property: Property) => {
+      {/* Slider: every property, swipe on mobile, arrows on desktop */}
+      <div
+        ref={trackRef}
+        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 -mx-1 px-1 [scrollbar-width:thin]"
+      >
+        {shown.map((property: Property) => {
           const isFav = !!favorites[property.id];
 
           return (
             <div
               key={property.id}
-              className="bg-surface-pure border border-border-subtle rounded-lg overflow-hidden group hover:shadow-ambient transition-all duration-300 flex flex-col h-full"
+              data-card
+              className="snap-start shrink-0 basis-[85%] sm:basis-[calc(50%-12px)] lg:basis-[calc(33.333%-16px)] bg-surface-pure border border-border-subtle rounded-lg overflow-hidden group hover:shadow-ambient transition-all duration-300 flex flex-col h-full"
             >
               {/* Image Container */}
               <div className="relative h-64 overflow-hidden">
@@ -152,9 +188,9 @@ export const CuratedEstatesSection: React.FC = () => {
       {/* Mobile view all link */}
       <Link
         href="/properties"
-        className="md:hidden mt-8 w-full py-3 border border-border-subtle rounded text-primary font-label-bold flex items-center justify-center gap-2 hover:bg-surface transition-colors"
+        className="group md:hidden mt-8 w-full py-3.5 rounded-lg bg-[#ea5c27] hover:bg-[#d64f1d] text-white font-label-bold font-bold shadow-md flex items-center justify-center gap-2 transition-all active:scale-95"
       >
-        View All Collection{' '}
+        View All Properties{' '}
         <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
           arrow_forward
         </span>
