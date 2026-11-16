@@ -97,11 +97,11 @@ export default function BuilderClient() {
   const [surveySubmitted, setSurveySubmitted] = useState(false);
 
   // Feasibility Calculator State
-  const [landAreaKatha, setLandAreaKatha] = useState(15);
+  const [landAreaKatha, setLandAreaKatha] = useState<number | ''>(15);
   const [corridor, setCorridor] = useState('Patna - Bailey Road / Saguna');
   const [farRatio, setFarRatio] = useState(2.5);
   const [projectType, setProjectType] = useState('Luxury High-Rise Residential');
-  const [baseSqftRate, setBaseSqftRate] = useState(8500);
+  const [baseSqftRate, setBaseSqftRate] = useState<number | ''>(8500);
   const [jvModel, setJvModel] = useState('Area Sharing (45% Landowner : 55% Builder)');
   const [feasibilityResult, setFeasibilityResult] = useState<{
     saleableSqft: number;
@@ -159,9 +159,19 @@ export default function BuilderClient() {
   // Handle Feasibility Calculation
   const handleCalculateFeasibility = (e: React.FormEvent) => {
     e.preventDefault();
-    const landSqft = landAreaKatha * 1361;
+    const katha = Number(landAreaKatha);
+    const rate = Number(baseSqftRate);
+    if (!katha || katha < 1 || katha > 500) {
+      toast.error('Please enter a land area between 1 and 500 katha.');
+      return;
+    }
+    if (!rate || rate < 1000 || rate > 50000) {
+      toast.error('Please enter a benchmark rate between ₹1,000 and ₹50,000 per sq ft.');
+      return;
+    }
+    const landSqft = katha * 1361;
     const saleableSqft = Math.round(landSqft * farRatio * 1.25);
-    const totalGdv = (saleableSqft * baseSqftRate) / 10000000;
+    const totalGdv = (saleableSqft * rate) / 10000000;
 
     let landownerRatio = 0.45;
     if (jvModel.includes('50:50')) landownerRatio = 0.5;
@@ -988,15 +998,17 @@ export default function BuilderClient() {
                   <input
                     type="number"
                     value={landAreaKatha}
-                    onChange={(e) => setLandAreaKatha(Number(e.target.value))}
-                    min={2}
-                    max={200}
-                    step={1}
+                    onChange={(e) => setLandAreaKatha(e.target.value === '' ? '' : Number(e.target.value))}
+                    min={1}
+                    max={500}
+                    step="any"
+                    inputMode="decimal"
+                    placeholder="e.g. 15"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                     required
                   />
                   <span className="text-[10px] text-neutral-400 mt-1 block">
-                    ~{(landAreaKatha * 1361).toLocaleString()} sq.ft. plot area
+                    ~{(Number(landAreaKatha || 0) * 1361).toLocaleString()} sq.ft. plot area
                   </span>
                 </div>
 
@@ -1047,10 +1059,12 @@ export default function BuilderClient() {
                   <input
                     type="number"
                     value={baseSqftRate}
-                    onChange={(e) => setBaseSqftRate(Number(e.target.value))}
-                    min={4000}
-                    max={25000}
-                    step={250}
+                    onChange={(e) => setBaseSqftRate(e.target.value === '' ? '' : Number(e.target.value))}
+                    min={1000}
+                    max={50000}
+                    step="any"
+                    inputMode="numeric"
+                    placeholder="e.g. 8500"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                     required
                   />
@@ -1066,7 +1080,7 @@ export default function BuilderClient() {
                     value={projectType}
                     onChange={(e) => {
                       setProjectType(e.target.value);
-                      if (e.target.value.includes('Commercial')) setBaseSqftRate((prev) => Math.max(prev, 12000));
+                      if (e.target.value.includes('Commercial')) setBaseSqftRate((prev) => Math.max(Number(prev) || 0, 12000));
                     }}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border-subtle bg-surface text-xs font-medium focus:border-secondary outline-none h-11"
                   >
